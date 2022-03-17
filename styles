@@ -1,0 +1,49 @@
+var STYLE_DATA = ee.FeatureCollection("projects/ee-aazuspan/assets/snazzy_styles");
+
+var HELP = 
+"snazzee\
+\n--------------\n\
+To add a style, use styles.addStyle(url).\n\
+Find style URLS at https://snazzymaps.com.\n\n\
+For example:\n\
+styles.addStyle('https://snazzymaps.com/style/287720/modest');\n\n\
+Styles are updated weekly so new styles may be unavailable.\n\n\
+More information: https://github.com/aazuspan/snazzee\
+"
+
+exports.help = function() {
+  print(HELP);
+}
+
+var styleFromURL = function(styleURL) {
+  var style = STYLE_DATA.filterMetadata("url", "equals", styleURL).first().getInfo()
+  
+  if (style == null) {
+    throw "Style " + styleURL + " could not be found...";
+  }
+  
+  return JSON.parse(style["properties"]["json"]);
+}
+
+exports.addStyle = function(url, name, currentStyles) {
+  name = name || "User Style";
+  currentStyles = currentStyles || {};
+  
+  var style = styleFromURL(url);
+  currentStyles[name] = style;
+  
+  Map.setOptions(name, currentStyles);
+  return currentStyles;
+}
+
+exports.demo = function() {
+  exports.help();
+  
+  var sampleStyles = {
+    "Retro": styleFromURL("https://snazzymaps.com/style/235815/retro"),
+    "WY": styleFromURL("https://snazzymaps.com/style/8097/wy"),
+    "Vintage": styleFromURL("https://snazzymaps.com/style/126378/vintage-old-golden-brown"),
+    "Dark": styleFromURL("https://snazzymaps.com/style/1261/dark")
+  }
+  Map.setOptions("Retro", sampleStyles);
+}
