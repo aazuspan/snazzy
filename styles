@@ -1,13 +1,12 @@
 var STYLE_DATA = ee.FeatureCollection("projects/ee-aazuspan/assets/snazzy_styles");
 
 var HELP = 
-"snazzee\
-\n--------------\n\
+"Snazzy\
+\n-------\n\
 To add a style, use styles.addStyle(url).\n\
 Find style URLS at https://snazzymaps.com.\n\n\
 For example:\n\
 styles.addStyle('https://snazzymaps.com/style/287720/modest');\n\n\
-Styles are updated weekly so new styles may be unavailable.\n\n\
 More information: https://github.com/aazuspan/snazzee\
 "
 
