@@ -7,7 +7,7 @@ To add a style, use styles.addStyle(url).\n\
 Find style URLS at https://snazzymaps.com.\n\n\
 For example:\n\
 styles.addStyle('https://snazzymaps.com/style/287720/modest');\n\n\
-More information: https://github.com/aazuspan/snazzee\
+More information: https://github.com/aazuspan/snazzy\
 "
 
 exports.help = function() {
