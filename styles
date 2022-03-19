@@ -33,6 +33,11 @@ var activeStyles = {};
 exports.addStyle = function(url, name) {
   name = name || "User Style";
   
+  // Prevent overwriting existing styles
+  if (activeStyles[name] != null) {
+    throw "A style with name '" + name + "' already exists! Style names must be unique.";
+  }
+  
   var style = styleFromURL(url);
   activeStyles[name] = style;
   
