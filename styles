@@ -1,13 +1,18 @@
 var STYLE_DATA = ee.FeatureCollection("projects/ee-aazuspan/assets/snazzy_styles");
 
-var HELP = 
-"Snazzy\
-\n-------\n\
-To add a style, use styles.addStyle(url).\n\
-Find style URLS at https://snazzymaps.com.\n\n\
-For example:\n\
-styles.addStyle('https://snazzymaps.com/style/287720/modest');\n\n\
-More information: https://github.com/aazuspan/snazzy\
+var HELP = "\
+\n█▓▒░░ Snazzy Help ░░▒▓█\
+\n\nIMPORT SNAZZY\
+\n════════════════════════════════════════════\
+\nvar snazzy = require(users/aazuspan/snazzy:styles);\
+\n\nADD A STYLE\
+\n════════════════════════════════════════════\
+\nsnazzy.addStyle(url, name);\
+\n\nADD MULTIPLE STYLES\
+\n════════════════════════════════════════════\
+\nsnazzy.addStyles({url: name, url: name});\
+\n\n\n\nMore info at https://github.com/aazuspan/snazzy\
+\nFind styles at https://SnazzyMaps.com\
 "
 
 exports.help = function() {
