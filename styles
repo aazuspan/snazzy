@@ -28,6 +28,8 @@ var styleFromURL = function(styleURL) {
 // Added styles are automatically stored in this global
 var activeStyles = {};
 
+
+// Add a single style from a URL
 exports.addStyle = function(url, name) {
   name = name || "User Style";
   
@@ -36,4 +38,11 @@ exports.addStyle = function(url, name) {
   
   Map.setOptions(name, activeStyles);
   return activeStyles;
+}
+
+// Add multiple styles from a mapping of URLs to names
+exports.addStyles = function(styles) {
+  for (var url in styles) {
+    exports.addStyle(url, styles[url]);
+  }
 }
