@@ -8,7 +8,7 @@
 
 - 🗺️ Customize your Earth Engine basemap in any script or App
 - ✨ Add any style from [Snazzy Maps](https://snazzymaps.com) with one line of code
-- 🗒️ Check out the [example script](https://code.earthengine.google.com/0f9f840270816d2151d64fa5c80a26b9) for a quick interactive demo
+- 🗒️ Check out the [example script](https://code.earthengine.google.com/0ed4407dff32fad05643cf0d7d920a42) for a quick interactive demo
 
 ## Usage
 
@@ -37,9 +37,9 @@ Your map can have multiple custom styles at once. You can do this is by using `a
 
 ```javascript
 var styles = {
-    "https://snazzymaps.com/style/235815/retro", "Retro",
-    "https://snazzymaps.com/style/13/neutral-blue", "Blue",
-    "https://snazzymaps.com/style/8097/wy", "WY"
+    "https://snazzymaps.com/style/235815/retro": "Retro",
+    "https://snazzymaps.com/style/13/neutral-blue": "Blue",
+    "https://snazzymaps.com/style/8097/wy": "WY"
 }
 snazzy.addStyles(styles);
 ```
