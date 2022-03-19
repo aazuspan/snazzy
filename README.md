@@ -18,6 +18,7 @@ Import the `snazzy` module into your Earth Engine script.
 var snazzy = require("users/aazuspan/snazzy:styles");
 ```
 
+### Add a Single Style
 Add a style from [Snazzy Maps](https://snazzymaps.com/explore) to your map by copying the URL and pasting in your Earth Engine script:
 
 ```javascript
@@ -30,12 +31,17 @@ Optionally, you can name your style by passing a second parameter. This name wil
 snazzy.addStyle("https://snazzymaps.com/style/235815/retro", "Retro!");
 ```
 
-Your map can have multiple custom styles at once. Just make sure they have unique names or new styles will overwrite the old styles. The last style you add will be set as the active style.
+### Add Multiple Styles
+
+Your map can have multiple custom styles at once. You can do this is by using `addStyle` multiple times, or by passing an object with URLs and unique style names to `addStyles`:
 
 ```javascript
-snazzy.addStyle("https://snazzymaps.com/style/235815/retro", "Retro");
-snazzy.addStyle("https://snazzymaps.com/style/13/neutral-blue", "Blue");
-snazzy.addStyle("https://snazzymaps.com/style/8097/wy", "WY");
+var styles = {
+    "https://snazzymaps.com/style/235815/retro", "Retro",
+    "https://snazzymaps.com/style/13/neutral-blue", "Blue",
+    "https://snazzymaps.com/style/8097/wy", "WY"
+}
+snazzy.addStyles(styles);
 ```
 
 ## Details
