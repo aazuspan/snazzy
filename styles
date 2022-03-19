@@ -1,7 +1,7 @@
 var STYLE_DATA = ee.FeatureCollection("projects/ee-aazuspan/assets/snazzy_styles");
 
 var HELP = "\
-\n█▓▒░░ Snazzy Help ░░▒▓█\
+\n█▓▒░░ Ｓｎａｚｚｙ Ｈｅｌｐ ░░▒▓█\
 \n\nIMPORT SNAZZY\
 \n════════════════════════════════════════════\
 \nvar snazzy = require(users/aazuspan/snazzy:styles);\
