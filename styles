@@ -1,7 +1,7 @@
 var STYLE_DATA = ee.FeatureCollection("projects/ee-aazuspan/assets/snazzy_styles");
 
 var HELP = "\
-\n█▓▒░░ Ｓｎａｚｚｙ Ｈｅｌｐ ░░▒▓█\
+\n█▓▒░░ Snazzy Help ░░▒▓█\
 \n\n1. IMPORT SNAZZY\
 \n╔═══════════════════════════════════════════════════════╗\
 \n║ var snazzy = require('users/aazuspan/snazzy:styles'); ║\
@@ -14,7 +14,7 @@ var HELP = "\
 \n╔═══════════════════════════════════════════════════════╗\
 \n║ snazzy.addStyles({url: name, url: name});             ║\
 \n╚═══════════════════════════════════════════════════════╝\
-\n\n\n\nMore info at https://github.com/aazuspan/snazzy\
+\n\nMore info at https://github.com/aazuspan/snazzy\
 \nFind styles at https://SnazzyMaps.com\
 "
 
