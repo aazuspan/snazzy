@@ -14,6 +14,7 @@ exports.help = function() {
   print(HELP);
 }
 
+// Query a style by URL from the style collection and return its JSON definition
 var styleFromURL = function(styleURL) {
   var style = STYLE_DATA.filterMetadata("url", "equals", styleURL).first().getInfo()
   
