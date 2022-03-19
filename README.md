@@ -8,7 +8,7 @@
 
 - 🗺️ Customize your Earth Engine basemap in any script or App
 - ✨ Add any style from [Snazzy Maps](https://snazzymaps.com) with one line of code
-- 🗒️ Check out the [example script](https://code.earthengine.google.com/1e8695463920c24bd2cc8efc7f63f9bf) for an interactive intro to `Snazzy`
+- 🗒️ Check out the [example script](https://code.earthengine.google.com/0f9f840270816d2151d64fa5c80a26b9) for a quick interactive demo
 
 ## Usage
 
@@ -18,7 +18,7 @@ Import the `snazzy` module into your Earth Engine script.
 var snazzy = require("users/aazuspan/snazzy:styles");
 ```
 
-Add a single style from [Snazzy Maps](https://snazzymaps.com/explore) by copying the URL and pasting in your Earth Engine script:
+Add a style from [Snazzy Maps](https://snazzymaps.com/explore) to your map by copying the URL and pasting in your Earth Engine script:
 
 ```javascript
 snazzy.addStyle("https://snazzymaps.com/style/235815/retro");
@@ -30,12 +30,12 @@ Optionally, you can name your style by passing a second parameter. This name wil
 snazzy.addStyle("https://snazzymaps.com/style/235815/retro", "Retro!");
 ```
 
-Whenever you call `addStyle`, it returns an array of your active styles. To add multiple styles to your map, you can pass that style array back in each time you add a new style. This will allow you to switch back and forth between multiple styles.
+Your map can have multiple custom styles at once. Just make sure they have unique names or new styles will overwrite the old styles. The last style you add will be set as the active style.
 
 ```javascript
-var styles = {};
-styles = snazzy.addStyle("https://snazzymaps.com/style/235815/retro", "Retro!", styles);
-styles = snazzy.addStyle("https://snazzymaps.com/style/13/neutral-blue", "Blue", styles);
+snazzy.addStyle("https://snazzymaps.com/style/235815/retro", "Retro");
+snazzy.addStyle("https://snazzymaps.com/style/13/neutral-blue", "Blue");
+snazzy.addStyle("https://snazzymaps.com/style/8097/wy", "WY");
 ```
 
 ## Details
