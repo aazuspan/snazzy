@@ -31,7 +31,7 @@ var activeStyles = {};
 
 // Add a single style from a URL
 exports.addStyle = function(url, name) {
-  name = name || "User Style";
+  name = name || "User Style" + String(Object.keys(activeStyles).length + 1);
   
   // Prevent overwriting existing styles
   if (activeStyles[name] != null) {
