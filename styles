@@ -37,15 +37,3 @@ exports.addStyle = function(url, name) {
   Map.setOptions(name, activeStyles);
   return activeStyles;
 }
-
-exports.demo = function() {
-  exports.help();
-  
-  var sampleStyles = {
-    "Retro": styleFromURL("https://snazzymaps.com/style/235815/retro"),
-    "WY": styleFromURL("https://snazzymaps.com/style/8097/wy"),
-    "Vintage": styleFromURL("https://snazzymaps.com/style/126378/vintage-old-golden-brown"),
-    "Dark": styleFromURL("https://snazzymaps.com/style/1261/dark")
-  }
-  Map.setOptions("Retro", sampleStyles);
-}
