@@ -24,15 +24,17 @@ var styleFromURL = function(styleURL) {
   return JSON.parse(style["properties"]["json"]);
 }
 
-exports.addStyle = function(url, name, currentStyles) {
+// Added styles are automatically stored in this global
+var activeStyles = {};
+
+exports.addStyle = function(url, name) {
   name = name || "User Style";
-  currentStyles = currentStyles || {};
   
   var style = styleFromURL(url);
-  currentStyles[name] = style;
+  activeStyles[name] = style;
   
-  Map.setOptions(name, currentStyles);
-  return currentStyles;
+  Map.setOptions(name, activeStyles);
+  return activeStyles;
 }
 
 exports.demo = function() {
