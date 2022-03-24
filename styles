@@ -65,6 +65,7 @@ exports.addStyles = function(styles) {
   }
 }
 
+// Add a random style to the map
 exports.surpriseMe = function() {
   var rand = exports.styles.toList(exports.styles.size()).shuffle({seed: false}).get(0);
   var url = ee.Feature(rand).get("url");
