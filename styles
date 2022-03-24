@@ -1,4 +1,6 @@
 var STYLE_DATA = ee.FeatureCollection("projects/ee-aazuspan/assets/snazzy_styles");
+exports.styles = ee.FeatureCollection("projects/ee-aazuspan/assets/snazzy_styles");
+
 
 var HELP = "\
 \n░░░░░░░ ░░░    ░░  ░░░░░  ░░░░░░░ ░░░░░░░ ░░    ░░ \
