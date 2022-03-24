@@ -64,3 +64,11 @@ exports.addStyles = function(styles) {
     exports.addStyle(url, styles[url]);
   }
 }
+
+exports.surpriseMe = function() {
+  var rand = exports.styles.toList(exports.styles.size()).shuffle({seed: false}).get(0);
+  var url = ee.Feature(rand).get("url");
+  print(url);
+  
+  exports.addStyle(url);
+}
