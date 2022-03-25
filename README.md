@@ -63,6 +63,21 @@ snazzy.surpriseMe(["monochrome", "yellow", "black", "two-tone"]);
 - **Tags**: `colorful, complex, dark, greyscale, light, monochrome, no-labels, simple, two-tone`
 - **Colors**: `black, blue, grey, green, orange, purple, red, white, yellow`
 
+### Find Popular Styles
+
+Need more help deciding on a style and don't want to leave the code editor? `snazzy.listStyles(n)` will list the top `n` styles. You can optionally use a list of tags to filter the results and choose whether to sort by views or favorites.
+
+```javascript
+var popular = snazzy.listStyles(5, ["grey", "blue", "no-labels"], "views");
+```
+
+Print the list to see their URLs or just get the most popular and add it directly to your map!
+
+```javascript
+print(popular);
+snazzy.addStyle(popular.get(0), "Popular grey-blue");
+```
+
 ## Details
 
 [@TC25](https://github.com/TC25) wrote [a great tutorial](https://developers.google.com/earth-engine/tutorials/community/customizing-base-map-styles) on how you can customize Earth Engine basemaps using styles from Snazzy Maps. However, that technique requires adding a long style string to every script. `snazzy` stores all ~25,000 style descriptions currently on Snazzy Maps in one big public Feature Collection (`projects/ee-aazuspan/assets/snazzy_styles`). When you request a style, `snazzy` queries that collection to find the right style and adds it to your map for you.
