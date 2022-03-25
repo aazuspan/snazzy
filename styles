@@ -74,13 +74,13 @@ exports.addStyles = function(styles) {
 }
 
 // Add a random style to the map
-exports.surpriseMe = function(tags) {
+exports.surpriseMe = function(tags, name) {
   var styles = exports.filterStyles(tags);
   
   var rand = styles.toList(styles.size()).shuffle({seed: false}).get(0);
   var url = ee.Feature(rand).get("url").getInfo();
   
-  exports.addStyle(url);
+  exports.addStyle(url, name);
   return url;
 }
 
