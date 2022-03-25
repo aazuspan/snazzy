@@ -52,18 +52,16 @@ If you don't feel like digging through the Snazzy Maps collection, `snazzy.surpr
 print(snazzy.surpriseMe());
 ```
 
-What if you already have an aesthetic or color scheme in mind? Try passing in an array of tags and/or colors. Now the random style will be chosen randomly from the styles that match *all* your criteria.
+What if you already have an aesthetic or color scheme in mind? Try passing in an array of tags and/or colors. Now the style will be chosen randomly from the styles that match *all* your criteria.
 
 ```javascript
 snazzy.surpriseMe(["monochrome", "yellow", "black", "two-tone"]);
 ```
 
-`Snazzy` supports all of the tags and colors used by Snazzy Maps
+`Snazzy` supports all of the tags and colors used by Snazzy Maps. To see them in the code editor: `print(snazzy.tags)`.
 
 - **Tags**: `colorful, complex, dark, greyscale, light, monochrome, no-labels, simple, two-tone`
 - **Colors**: `black, blue, grey, green, orange, purple, red, white, yellow`
-
-To see them in the code editor: `print(snazzy.tags)`.
 
 ## Details
 
