@@ -70,7 +70,7 @@ exports.surpriseMe = function(tags) {
   var tagFilter = buildCompoundTagFilter(tags);
   var styles = exports.styles.filter(tagFilter);
   
-  if (styles.size().getInfo() === 0) {
+  if (tags != null && styles.size().getInfo() === 0) {
     throw "No styles matched the selected tags!";
   }
   
