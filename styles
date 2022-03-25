@@ -66,10 +66,30 @@ exports.addStyles = function(styles) {
 }
 
 // Add a random style to the map
-exports.surpriseMe = function() {
-  var rand = exports.styles.toList(exports.styles.size()).shuffle({seed: false}).get(0);
+exports.surpriseMe = function(tags) {
+  var tagFilter = buildCompoundTagFilter(tags);
+  var styles = exports.styles.filter(tagFilter);
+  
+  var rand = styles.toList(styles.size()).shuffle({seed: false}).get(0);
   var url = ee.Feature(rand).get("url").getInfo();
   
   exports.addStyle(url);
   return url;
+}
+
+// Iteratively build a filter to match against all tags in an array of tags
+var buildCompoundTagFilter = function(tags) {
+  // If null or empty tags are provided, create a filter that returns everything
+  if (tags == null || tags.length == 0)
+    return ee.Filter.always();
+    
+  // If tags is a single string, turn it into an array
+  tags = [].concat(tags);
+  
+  var filter = ee.Filter.stringContains("tags", tags[0]);
+  for (var i=1; i<tags.length; i++) {
+    filter = ee.Filter.and(filter, ee.Filter.stringContains("tags", tags[i]));
+  }
+  
+  return filter;
 }
