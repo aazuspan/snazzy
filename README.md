@@ -8,7 +8,7 @@
 
 - 🗺️ Customize your Earth Engine basemap in any script or App
 - ✨ Add any style from [Snazzy Maps](https://snazzymaps.com) with one line of code
-- 🗒️ Check out the [example script](https://code.earthengine.google.com/d0fbb0ab2a2daf37e4fc8ce066484edd) for a quick interactive demo
+- 🗒️ Check out the [example script](https://code.earthengine.google.com/5a41798d5c3126f0ee726aa7c52ba80d) for a quick interactive demo
 
 ## Usage
 
