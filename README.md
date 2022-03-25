@@ -44,6 +44,27 @@ var styles = {
 snazzy.addStyles(styles);
 ```
 
+### Add a Random Style
+
+If you don't feel like digging through the Snazzy Maps collection, `snazzy.surpriseMe` adds a random style to the map. If you want to be able to find the style again make sure to print it!
+
+```javascript
+print(snazzy.surpriseMe());
+```
+
+What if you already have an aesthetic or color scheme in mind? Try passing in an array of tags and/or colors. Now the random style will be chosen randomly from the styles that match *all* your criteria.
+
+```javascript
+snazzy.surpriseMe(["monochrome", "yellow", "black", "two-tone"]);
+```
+
+`Snazzy` supports all of the tags and colors used by Snazzy Maps
+
+- **Tags**: `colorful, complex, dark, greyscale, light, monochrome, no-labels, simple, two-tone`
+- **Colors**: `black, blue, grey, green, orange, purple, red, white, yellow`
+
+To see them in the code editor: `print(snazzy.tags)`.
+
 ## Details
 
 [@TC25](https://github.com/TC25) wrote [a great tutorial](https://developers.google.com/earth-engine/tutorials/community/customizing-base-map-styles) on how you can customize Earth Engine basemaps using styles from Snazzy Maps. However, that technique requires adding a long style string to every script. `snazzy` stores all ~25,000 style descriptions currently on Snazzy Maps in one big public Feature Collection (`projects/ee-aazuspan/assets/snazzy_styles`). When you request a style, `snazzy` queries that collection to find the right style and adds it to your map for you.
