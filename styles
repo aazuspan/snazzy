@@ -70,6 +70,10 @@ exports.surpriseMe = function(tags) {
   var tagFilter = buildCompoundTagFilter(tags);
   var styles = exports.styles.filter(tagFilter);
   
+  if (styles.size().getInfo() === 0) {
+    throw "No styles matched the selected tags!";
+  }
+  
   var rand = styles.toList(styles.size()).shuffle({seed: false}).get(0);
   var url = ee.Feature(rand).get("url").getInfo();
   
