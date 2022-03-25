@@ -1,4 +1,4 @@
-exports.tags = [
+exports = [
     "colorful", 
     "complex",
     "dark",
