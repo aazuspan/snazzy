@@ -16,7 +16,7 @@ snazzy.addStyles(styles);
 snazzy.surpriseMe(["two-tone", "simple", "red", "black"], "Random")
 
 // Find the 5 most viewed styles that match a set of tags and add the top result
-var popular = snazzy.listStyles(5, ["colorful", "light", "complex"], "views");
+var popular = snazzy.listStyles(5, ["dark", "simple", "monochrome", "yellow"], "views");
 snazzy.addStyle(popular.get(0), "Popular")
 
 // Snazzy contains a help function that prints a few helpful reminders.
