@@ -71,6 +71,29 @@ exports.addStyles = function(styles) {
 
 // Add a random style to the map
 exports.surpriseMe = function(tags) {
+  var styles = exports.filterStyles(tags);
+  
+  var rand = styles.toList(styles.size()).shuffle({seed: false}).get(0);
+  var url = ee.Feature(rand).get("url").getInfo();
+  
+  exports.addStyle(url);
+  return url;
+}
+
+// List the top n styles that match 
+exports.listStyles = function(n, tags, order) {
+  order = order || "favorites";
+  if (order != "views" && order != "favorites") {
+    throw "Order should be 'views' or 'favorites', not '" + order + "'.";
+  }
+  
+  var styles = filterStyles(tags);
+  
+  return styles.sort(order, false).limit(n).aggregate_array("url");
+}
+
+// Filter styles to match all given tags
+var filterStyles = function(tags) {
   var tagFilter = buildCompoundTagFilter(tags);
   var styles = exports.styles.filter(tagFilter);
   
@@ -78,11 +101,7 @@ exports.surpriseMe = function(tags) {
     throw "No styles matched the selected tags!";
   }
   
-  var rand = styles.toList(styles.size()).shuffle({seed: false}).get(0);
-  var url = ee.Feature(rand).get("url").getInfo();
-  
-  exports.addStyle(url);
-  return url;
+  return styles;
 }
 
 // Iteratively build a filter to match against all tags in an array of tags
