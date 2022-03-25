@@ -92,7 +92,11 @@ var buildCompoundTagFilter = function(tags) {
   
   var filter = ee.Filter.stringContains("tags", tags[0]);
   for (var i=1; i<tags.length; i++) {
-    filter = ee.Filter.and(filter, ee.Filter.stringContains("tags", tags[i]));
+    var tag = tags[i];
+    if (exports.tags.indexOf(tag) === -1) {
+      throw "'" + tag + "' is not a recognized tag. Choose from: " + exports.tags;
+    }
+    filter = ee.Filter.and(filter, ee.Filter.stringContains("tags", tag));
   }
   
   return filter;
