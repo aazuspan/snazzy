@@ -105,14 +105,22 @@ def clean_styles(styles):
 
 def save_styles(styles):
     """Save the styles to a CSV for ingestion into Earth Engine."""
-    df = pd.json_normalize(styles)[["url", "json"]]
-    # Just in case, drop any null rows
-    df = df.dropna()
+    df = pd.json_normalize(styles)
+
+    # Back up a copy of the raw styles
+    df.to_csv("snazzy_styles_raw.csv", index=False, sep="\t")
+
+    # Just in case, drop any rows with null styles or urls
+    df = df.dropna(subset=["json", "url"])
     # Remove empty styles
     df = df[df.json.ne("[]")]
-    # Remove illegal characters. These WILL break ingestion into GEE.
+    # Remove illegal characters. These WILL break asset ingestion into GEE.
     df.json = df.json.str.replace('[\\r\\n\\t\s]', "", regex=True)
 
+    # Merge the tags and colors into one row of comma-separated values
+    df["tags"] = (df.tags + df.colors).map(lambda x: ",".join(x))
+
+    df = df[["name", "url", "tags", "json", "views", "favorites"]]
     # Tab-delimiting overcomes some issues that GEE has when you ingest
     # these comma-delimited.
     df.to_csv("snazzy_styles.csv", index=False, sep="\t")
