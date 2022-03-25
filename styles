@@ -100,8 +100,10 @@ exports.listStyles = function(n, tags, order) {
 // Add the most popular style that matches optional tags to the map
 exports.addTopStyle = function(tags, name, order) {
   var styles = exports.listStyles(1, tags, order);
-  var top = ee.Feature(styles.get(0));
-  exports.addStyle(top.get("url").getInfo(), name);
+  var topURL = styles.get(0).getInfo();
+  exports.addStyle(topURL, name);
+  
+  return topURL;
 }
 
 // Filter styles to match all given tags
