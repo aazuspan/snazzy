@@ -1,0 +1,20 @@
+exports.tags = [
+    "colorful", 
+    "complex",
+    "dark",
+    "greyscale",
+    "light",
+    "monochrome",
+    "no-labels",
+    "simple",
+    "two-tone",
+    "black",
+    "blue",
+    "grey",
+    "green",
+    "orange",
+    "purple",
+    "red",
+    "white",
+    "yellow"
+];
