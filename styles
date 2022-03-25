@@ -23,7 +23,11 @@ var HELP = "\
 \n╚═══════════════════════════════════════════════════════╝\
 \n\n██▓▓▒▒▒▒░░░░░░     ADD A RANDOM STYLE      ░░░░░░▒▒▒▒▓▓██\
 \n╔═══════════════════════════════════════════════════════╗\
-\n║ snazzy.surpriseMe([optional tags...])                 ║\
+\n║ snazzy.surpriseMe([optional tags...]);                ║\
+\n╚═══════════════════════════════════════════════════════╝\
+\n\n██▓▓▒▒▒▒░░░░░░     LIST POPULAR STYLES     ░░░░░░▒▒▒▒▓▓██\
+\n╔═══════════════════════════════════════════════════════╗\
+\n║ snazzy.listStyles(n, [tags], order);                  ║\
 \n╚═══════════════════════════════════════════════════════╝\
 "
 
@@ -80,8 +84,9 @@ exports.surpriseMe = function(tags) {
   return url;
 }
 
-// List the top n styles that match 
+// List the top n styles that match an optional set of tags, ordered by favorites or views.
 exports.listStyles = function(n, tags, order) {
+  n = n || 10;
   order = order || "favorites";
   if (order != "views" && order != "favorites") {
     throw "Order should be 'views' or 'favorites', not '" + order + "'.";
