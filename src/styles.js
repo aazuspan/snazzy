@@ -132,20 +132,16 @@ var buildCompoundTagFilter = function(tags) {
   // If tags is a single string, turn it into an array
   tags = [].concat(tags);
   
-  
   for (var i=0; i<tags.length; i++) {
     var tag = tags[i];
     if (exports.tags.indexOf(tag) === -1) {
       throw "'" + tag + "' is not a recognized tag. Choose from: " + exports.tags;
     }
     
-    if (i === 0) {
+    if (i === 0) 
       var filter = ee.Filter.stringContains("tags", tags[0]);
-    }
-    else {
+    else
       filter = ee.Filter.and(filter, ee.Filter.stringContains("tags", tag));
-
-    }
   }
   
   return filter;
