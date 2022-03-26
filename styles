@@ -83,6 +83,12 @@ exports.surpriseMe = function(tags, name) {
   return url;
 }
 
+// Add the first style that matches a set of tags, sorted by "favorites", "views", or "random".
+exports.addStyleFromTags = function(tags, name, order) {
+  var url = exports.listStyles(1, tags, order).get(0).getInfo();
+  exports.addStyle(url, name);
+}
+
 // List the URLs of the top n styles that match an optional set of tags, ordered by favorites,
 // views, or random.
 exports.listStyles = function(n, tags, order) {
