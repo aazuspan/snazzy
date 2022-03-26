@@ -75,7 +75,7 @@ exports.addStyles = function(styles) {
 
 // Add a random style to the map
 exports.surpriseMe = function(tags, name) {
-  print("snazzy.surpriseMe is deprecated and will be removed soon.\
+  print("WARNING: snazzy.surpriseMe is deprecated and will be removed soon.\
   Please use snazzy.addStyleFromTags with random order instead.")
   
   return exports.addStyleFromTags(tags, name, "random");
