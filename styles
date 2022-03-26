@@ -75,12 +75,10 @@ exports.addStyles = function(styles) {
 
 // Add a random style to the map
 exports.surpriseMe = function(tags, name) {
-  var styles = filterStyles(tags);
+  print("snazzy.surpriseMe is deprecated and will be removed soon.\
+  Please use snazzy.addStyleFromTags with random order instead.")
   
-  var url = exports.listStyles(1, tags, "random").get(0).getInfo();
-  
-  exports.addStyle(url, name);
-  return url;
+  return exports.addStyleFromTags(tags, name, "random");
 }
 
 // Add the first style that matches a set of tags, sorted by "favorites", "views", or "random".
