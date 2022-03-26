@@ -9,15 +9,14 @@ var styles = {
     "https://snazzymaps.com/style/235815/retro": "Retro",
     "https://snazzymaps.com/style/13/neutral-blue": "Blue",
     "https://snazzymaps.com/style/8097/wy": "WY"
-}
+};
 snazzy.addStyles(styles);
 
-// Add a random style that matches a set of tags or colors
-snazzy.surpriseMe(["two-tone", "simple", "red", "black"], "Random")
+// Add a random style that matches a set of tags.
+snazzy.addStyleFromTags(["no-labels", "simple", "purple"], "ColorfulStyle", "random");
 
-// Find the 5 most viewed styles that match a set of tags and add the top result
-var popular = snazzy.listStyles(5, ["dark", "simple", "monochrome", "yellow"], "views");
-snazzy.addStyle(popular.get(0), "Popular")
+// Add the most popular style (by views) that matches a set of tags.
+snazzy.addStyleFromTags(["dark", "simple", "monochrome", "yellow"], "PopularStyle", "views");
 
 // Snazzy contains a help function that prints a few helpful reminders.
 snazzy.help();
