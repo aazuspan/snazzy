@@ -1,2 +1,2 @@
 // This is the root module for importing Snazzy
-exports = require("users/aazuspan/snazzy:src/styles.js);
+exports = require("users/aazuspan/snazzy:src/styles.js");
