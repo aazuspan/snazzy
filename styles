@@ -77,8 +77,8 @@ exports.addStyles = function(styles) {
 exports.surpriseMe = function(tags, name) {
   var styles = filterStyles(tags);
   
-  var rand = exports.listStyles(1, tags, "random").get(0);
-  var url = ee.Feature(rand).get("url").getInfo();
+  var url = exports.listStyles(1, tags, "random").get(0);
+  // var url = ee.Feature(rand).get("url").getInfo();
   
   exports.addStyle(url, name);
   return url;
