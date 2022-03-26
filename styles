@@ -96,8 +96,8 @@ exports.listStyles = function(n, tags, order) {
   var styles = filterStyles(tags);
   
   if (order === "random") {
-    styles = styles.randomColumn({columnName: "random", seed: false});
-    // var sorted = ee.FeatureCollection(styles.toList(styles.size()).shuffle({seed: false}));
+    styles = styles.randomColumn({columnName: "random", seed: ee.Date(Date.now()).millis()}});
+    // var sorted = ee.FeatureCollection(styles.toList(styles.size()).shuffle({seed: false));
   }
   sorted = styles.sort(order, false);
   
