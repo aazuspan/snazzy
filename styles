@@ -99,7 +99,7 @@ exports.listStyles = function(n, tags, order) {
     styles = styles.randomColumn({columnName: "random", seed: ee.Date(Date.now()).millis()});
     // var sorted = ee.FeatureCollection(styles.toList(styles.size()).shuffle({seed: false));
   }
-  sorted = styles.sort(order, false);
+  var sorted = styles.sort(order, false);
   
   return sorted.limit(n).aggregate_array("url");
 }
