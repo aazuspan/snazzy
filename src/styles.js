@@ -83,7 +83,13 @@ exports.surpriseMe = function(tags, name) {
 
 // Add the first style that matches a set of tags, sorted by "favorites", "views", or "random".
 exports.addStyleFromTags = function(tags, name, order) {
-  var url = exports.listStyles(1, tags, order).get(0).getInfo();
+  var matchList = exports.listStyles(1, tags, order).getInfo();
+  // Making this check client-side after retrieving the styles is significantly faster
+  // than checking the FeatureCollection size during filtering.
+  if (matchList.length === 0)
+    throw "No styles matched all the selected tags!";
+
+  var url = matchList[0];
   
   exports.addStyle(url, name);
   return url;
@@ -102,21 +108,17 @@ exports.listStyles = function(n, tags, order) {
   
   if (order === "random") {
     styles = styles.randomColumn({columnName: "random", seed: ee.Date(Date.now()).millis()});
-    // var sorted = ee.FeatureCollection(styles.toList(styles.size()).shuffle({seed: false));
   }
   var sorted = styles.sort(order, false);
   
   return sorted.limit(n).aggregate_array("url");
 }
 
-// Filter styles to match all given tags
+// Filter styles to match all given tags. This may return an empty FeatureCollection if 
+// no styles match all criteria.
 var filterStyles = function(tags) {
   var tagFilter = buildCompoundTagFilter(tags);
   var styles = exports.styles.filter(tagFilter);
-  
-  // if (styles.size().getInfo() === 0) {
-    // throw "No styles matched the selected tags!";
-  // }
   
   return styles;
 }
