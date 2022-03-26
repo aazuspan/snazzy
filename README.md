@@ -40,7 +40,7 @@ snazzy.addStyles(styles);
 
 ### Add a Style Using Tags
 
-Know the aesthetic or color scheme you want but don't have a specific style in mind? You can use `snazzy.addStyleFromTags` to add a popular or random style that matches your criteria. Just pass in an array of tags/colors and a style name to assign.
+Know the aesthetic or color scheme but don't have a specific style in mind? You can use `snazzy.addStyleFromTags` to add a popular or random style that matches your criteria. Just pass in an array of [tags/colors](#snazzy-tags) and a style name to assign.
 
 ```javascript
 snazzy.addStyleFromTags(["yellow", "black", "two-tone"], "Yellow");
@@ -52,6 +52,8 @@ By default, `addStyleFromTags` adds the most popular style that matches all your
 snazzy.addStyleFromTags(["colorful", "no-labels", "simple"], "Colorful", "random");
 ```
 
+### Snazzy Tags
+
 `Snazzy` supports all of the tags and colors used by Snazzy Maps. To see them in the code editor: `print(snazzy.tags)`.
 
 - **Tags**: `colorful, complex, dark, greyscale, light, monochrome, no-labels, simple, two-tone`
@@ -59,6 +61,4 @@ snazzy.addStyleFromTags(["colorful", "no-labels", "simple"], "Colorful", "random
 
 ## Details
 
-[@TC25](https://github.com/TC25) wrote [a great tutorial](https://developers.google.com/earth-engine/tutorials/community/customizing-base-map-styles) on how you can customize Earth Engine basemaps using styles from Snazzy Maps. However, that technique requires adding a long style string to every script. `snazzy` stores all ~25,000 style descriptions currently on Snazzy Maps in one big public Feature Collection (`projects/ee-aazuspan/assets/snazzy_styles`). When you request a style, `snazzy` queries that collection to find the right style and adds it to your map for you.
-
-Note: Because `snazzy` accesses styles from a copy of the Snazzy Maps database, recently added styles may be unavailable. If you find a missing style, feel free to open an issue and I'll try to get it added.
+[@TC25](https://github.com/TC25) wrote [a great tutorial](https://developers.google.com/earth-engine/tutorials/community/customizing-base-map-styles) on how you can customize Earth Engine basemaps using styles from Snazzy Maps. However, that technique requires adding a long style string to every script. `snazzy` stores all ~25,000 style descriptions currently on Snazzy Maps in one big public Feature Collection (`snazzy.styles`). When you request a style, `snazzy` queries that collection to find the right style and adds it to your map for you.
