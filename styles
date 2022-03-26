@@ -86,6 +86,7 @@ exports.surpriseMe = function(tags, name) {
 // Add the first style that matches a set of tags, sorted by "favorites", "views", or "random".
 exports.addStyleFromTags = function(tags, name, order) {
   var url = exports.listStyles(1, tags, order).get(0).getInfo();
+  
   exports.addStyle(url, name);
   return url;
 }
