@@ -43,10 +43,10 @@ snazzy.addStyles(styles);
 Know the aesthetic or color scheme you want but don't have a specific style in mind? You can use `snazzy.addStyleFromTags` to add a popular or random style that matches your criteria. Just pass in an array of tags/colors and a style name to assign.
 
 ```javascript
-snazzy.addStyleFromTags(["monochrome", "yellow", "black", "two-tone"], "Yellow");
+snazzy.addStyleFromTags(["yellow", "black", "two-tone"], "Yellow");
 ```
 
-By default, `addStyleFromTags` adds the most popular style that matches all your tags, sorted by `favorites`, but you can also sort by `views` or `random` for a surprise!
+By default, `addStyleFromTags` adds the most popular style that matches all your tags, sorted by `favorites`, but you can also sort by `views` (or `random` for a surprise).
 
 ```javascript
 snazzy.addStyleFromTags(["colorful", "no-labels", "simple"], "Colorful", "random");
