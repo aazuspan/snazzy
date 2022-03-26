@@ -9,7 +9,7 @@ var styles = {
     "https://snazzymaps.com/style/235815/retro": "Retro",
     "https://snazzymaps.com/style/13/neutral-blue": "Blue",
     "https://snazzymaps.com/style/8097/wy": "WY"
-}
+};
 snazzy.addStyles(styles);
 
 // Add a random style that matches a set of tags.
