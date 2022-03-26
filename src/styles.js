@@ -114,9 +114,9 @@ var filterStyles = function(tags) {
   var tagFilter = buildCompoundTagFilter(tags);
   var styles = exports.styles.filter(tagFilter);
   
-  if (styles.size().getInfo() === 0) {
-    throw "No styles matched the selected tags!";
-  }
+  // if (styles.size().getInfo() === 0) {
+    // throw "No styles matched the selected tags!";
+  // }
   
   return styles;
 }
