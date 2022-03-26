@@ -75,35 +75,38 @@ exports.addStyles = function(styles) {
 
 // Add a random style to the map
 exports.surpriseMe = function(tags, name) {
-  var styles = filterStyles(tags);
+  print("WARNING: snazzy.surpriseMe is deprecated and will be removed soon.\
+  Please use snazzy.addStyleFromTags with random order instead.")
   
-  var rand = styles.toList(styles.size()).shuffle({seed: false}).get(0);
-  var url = ee.Feature(rand).get("url").getInfo();
+  return exports.addStyleFromTags(tags, name, "random");
+}
+
+// Add the first style that matches a set of tags, sorted by "favorites", "views", or "random".
+exports.addStyleFromTags = function(tags, name, order) {
+  var url = exports.listStyles(1, tags, order).get(0).getInfo();
   
   exports.addStyle(url, name);
   return url;
 }
 
-// List the top n styles that match an optional set of tags, ordered by favorites or views.
+// List the URLs of the top n styles that match an optional set of tags, ordered by favorites,
+// views, or random.
 exports.listStyles = function(n, tags, order) {
   n = n || 10;
   order = order || "favorites";
-  if (order != "views" && order != "favorites") {
-    throw "Order should be 'views' or 'favorites', not '" + order + "'.";
+  if (order != "views" && order != "favorites" && order != "random") {
+    throw "Order should be 'favorites', 'views', or 'random', not '" + order + "'.";
   }
   
   var styles = filterStyles(tags);
   
-  return styles.sort(order, false).limit(n).aggregate_array("url");
-}
-
-// Add the most popular style that matches optional tags to the map
-exports.addTopStyle = function(tags, name, order) {
-  var styles = exports.listStyles(1, tags, order);
-  var topURL = styles.get(0).getInfo();
-  exports.addStyle(topURL, name);
+  if (order === "random") {
+    styles = styles.randomColumn({columnName: "random", seed: ee.Date(Date.now()).millis()});
+    // var sorted = ee.FeatureCollection(styles.toList(styles.size()).shuffle({seed: false));
+  }
+  var sorted = styles.sort(order, false);
   
-  return topURL;
+  return sorted.limit(n).aggregate_array("url");
 }
 
 // Filter styles to match all given tags
