@@ -87,7 +87,10 @@ var sortStyles = function(order) {
     styles = styles.randomColumn({columnName: "random", seed: ee.Date(Date.now()).millis()});
   }
   
-  return styles.sort(order, false);
+  var sorted = styles.sort(order, false);
+  // Remove the random column, if it was added. If not, this has no effect.
+  var props = styles.first().propertyNames().remove("random");
+  return styles.select(props);
 }
 
 
