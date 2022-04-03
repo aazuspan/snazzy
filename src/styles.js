@@ -82,6 +82,7 @@ var sortStyles = function(order) {
     throw "Order should be 'favorites', 'views', or 'random', not '" + order + "'.";
   }
   
+  var styles = exports.styles();
   if (order === "random") {
     styles = styles.randomColumn({columnName: "random", seed: ee.Date(Date.now()).millis()});
   }
