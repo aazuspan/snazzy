@@ -15,19 +15,23 @@ var HELP = "\
 \n╚═══════════════════════════════════════════════════════╝\
 \n\n██▓▓▒▒▒▒░░░░░░          ADD A STYLE        ░░░░░░▒▒▒▒▓▓██\
 \n╔═══════════════════════════════════════════════════════╗\
-\n║ snazzy.addStyle(url, name);                           ║\
+\n║ snazzy.addStyle(url, alias);                          ║\
 \n╚═══════════════════════════════════════════════════════╝\
 \n\n██▓▓▒▒▒▒░░░░░░     ADD MULTIPLE STYLES     ░░░░░░▒▒▒▒▓▓██\
 \n╔═══════════════════════════════════════════════════════╗\
-\n║ snazzy.addStyles({url: name, url: name, ...});        ║\
+\n║ snazzy.addStyles({url: alias, url: alias, ...});      ║\
 \n╚═══════════════════════════════════════════════════════╝\
 \n\n██▓▓▒▒▒▒░░░░░░     ADD A RANDOM STYLE      ░░░░░░▒▒▒▒▓▓██\
 \n╔═══════════════════════════════════════════════════════╗\
-\n║ snazzy.addStyleFromTags([tags], name, 'random')       ║\
+\n║ snazzy.addStyleFromTags([tags], alias, 'random')      ║\
 \n╚═══════════════════════════════════════════════════════╝\
 \n\n██▓▓▒▒▒▒░░░░░░     ADD A POPULAR STYLE     ░░░░░░▒▒▒▒▓▓██\
 \n╔═══════════════════════════════════════════════════════╗\
-\n║ snazzy.addStyleFromTags([tags], name, 'views');       ║\
+\n║ snazzy.addStyleFromTags([tags], alias, 'views');      ║\
+\n╚═══════════════════════════════════════════════════════╝\
+\n\n██▓▓▒▒▒▒░░░░░░     ADD A STYLE BY NAME     ░░░░░░▒▒▒▒▓▓██\
+\n╔═══════════════════════════════════════════════════════╗\
+\n║ snazzy.addStyleFromName(name, alias);                 ║\
 \n╚═══════════════════════════════════════════════════════╝\
 "
 
@@ -35,104 +39,101 @@ exports.help = function() {
   print(HELP);
 }
 
-// Query a style by URL from the style collection and return its JSON definition
-var styleFromURL = function(styleURL) {
-  var style = exports.styles.filterMetadata("url", "equals", styleURL).first().getInfo()
-  
-  if (style == null) {
-    throw "Style " + styleURL + " could not be found...";
-  }
-  
-  return JSON.parse(style["properties"]["json"]);
-}
 
 // Added styles are automatically stored in this global
 var activeStyles = {};
 
 
 // Add a single style from a URL
-exports.addStyle = function(url, name) {
-  name = name || "User Style " + String(Object.keys(activeStyles).length + 1);
-  
-  // Prevent overwriting existing styles
-  if (activeStyles[name] != null) {
-    throw "A style with name '" + name + "' already exists! Style names must be unique.";
-  }
-  
-  var style = styleFromURL(url);
-  activeStyles[name] = style;
-  
-  Map.setOptions(name, activeStyles);
-  return activeStyles;
+exports.addStyle = function(url, alias) {
+  var style = getStyleFromProperty("url", url);
+  return addStyleToMap(style, alias);
 }
+
 
 // Add multiple styles from a mapping of URLs to names
 exports.addStyles = function(styles) {
+  var properties = [];
   for (var url in styles) {
-    exports.addStyle(url, styles[url]);
+    properties.push(exports.addStyle(url, styles[url]));
   }
+  return properties;
 }
 
-// Add a random style to the map
-exports.surpriseMe = function(tags, name) {
-  print("WARNING: snazzy.surpriseMe is deprecated and will be removed soon.\
-  Please use snazzy.addStyleFromTags with random order instead.")
-  
-  return exports.addStyleFromTags(tags, name, "random");
-}
-
-// Add the first style that matches a set of tags, sorted by "favorites", "views", or "random".
-exports.addStyleFromTags = function(tags, name, order) {
-  var matchList = exports.listStyles(1, tags, order).getInfo();
-  // Making this check client-side after retrieving the styles is significantly faster
-  // than checking the FeatureCollection size during filtering.
-  if (matchList.length === 0)
-    throw "No styles matched all the selected tags!";
-
-  var url = matchList[0];
-  
-  exports.addStyle(url, name);
-  return url;
-}
 
 // Add the first style with a given name, sorted by favorites.
-exports.addStyleFromName = function(styleName) {
-  var style = exports.styles.filter(ee.Filter.equals("name", styleName)).sort("favorites", false).first().getInfo();
-  
-  if (style == null) {
-    throw "Style " + styleName + " could not be found...";
-  }
-  
-  return JSON.parse(style["properties"]["json"]);
+exports.addStyleFromName = function(name, alias) {
+  var style = getStyleFromProperty("name", name, "favorites");
+  return addStyleToMap(style, alias);
 }
 
-// List the URLs of the top n styles that match an optional set of tags, ordered by favorites,
-// views, or random.
-exports.listStyles = function(n, tags, order) {
-  n = n || 10;
+
+// Add the first style that matches a set of tags, sorted by "favorites", "views", or "random".
+exports.addStyleFromTags = function(tags, alias, order) {
+  var style = getStyleFromTags(tags, order);
+  return addStyleToMap(style, alias);
+}
+
+
+// Sort all the exported styles by favorites, views, or random
+var sortStyles = function(order) {
   order = order || "favorites";
   if (order != "views" && order != "favorites" && order != "random") {
     throw "Order should be 'favorites', 'views', or 'random', not '" + order + "'.";
   }
   
-  var styles = filterStyles(tags);
-  
   if (order === "random") {
     styles = styles.randomColumn({columnName: "random", seed: ee.Date(Date.now()).millis()});
   }
-  var sorted = styles.sort(order, false);
   
-  return sorted.limit(n).aggregate_array("url");
+  return exports.styles.sort(order, false);
 }
 
-// Filter styles to match all given tags. This may return an empty FeatureCollection if 
-// no styles match all criteria.
-var filterStyles = function(tags) {
+
+// Get the first style from the collection that matches all of the given tags
+var getStyleFromTags = function(tags, order) {
   var tagFilter = buildCompoundTagFilter(tags);
-  var styles = exports.styles.filter(tagFilter);
   
-  return styles;
+  var sorted = sortStyles(order);
+  var style = exports.styles.filter(tagFilter).first().getInfo();
+  
+  if (style == null) {
+    throw "No styles matched all the selected tags...";
+  }
+  
+  return style;
 }
+
+
+// Get the first style from the collection where a given property matches a given value.
+var getStyleFromProperty = function(property, value, order) {
+  var sorted = sortStyles(order);
+  var style = sorted.filter(ee.Filter.equals(property, value)).first().getInfo();
+  
+  if (style == null) {
+    throw "Style with " + property + " '" + styleURL + "' could not be found...";
+  }
+  
+  return style;
+}
+
+
+// Add a style to the map from a client-side Feature objet
+var addStyleToMap = function(style, alias) {
+  alias = alias || "User Style " + String(Object.keys(activeStyles).length + 1);
+  
+  // Prevent overwriting existing styles
+  if (activeStyles[alias] != null) {
+    throw "A style with alias '" + alias + "' already exists! Style aliases must be unique (or null).";
+  }
+  
+  var styleJSON = JSON.parse(style["properties"]["json"]);
+  activeStyles[alias] = styleJSON;
+  
+  Map.setOptions(alias, activeStyles);
+  return activeStyles["properties"];
+}
+
 
 // Iteratively build a filter to match against all tags in an array of tags
 var buildCompoundTagFilter = function(tags) {
