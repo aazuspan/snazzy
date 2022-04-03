@@ -90,7 +90,7 @@ var sortStyles = function(order) {
   var sorted = styles.sort(order, false);
   // Remove the random column, if it was added. If not, this has no effect.
   var props = styles.first().propertyNames().remove("random");
-  return styles.select(props);
+  return sorted.select(props);
 }
 
 
