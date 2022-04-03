@@ -112,7 +112,7 @@ var getStyleFromProperty = function(property, value, order) {
   var style = sorted.filter(ee.Filter.equals(property, value)).first().getInfo();
   
   if (style == null) {
-    throw "Style with " + property + " '" + styleURL + "' could not be found...";
+    throw "Style with " + property + " '" + value + "' could not be found...";
   }
   
   return style;
