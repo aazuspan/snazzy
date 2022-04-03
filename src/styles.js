@@ -121,7 +121,7 @@ var getStyleFromProperty = function(property, value, order) {
 
 // Add a style to the map from a client-side Feature objet
 var addStyleToMap = function(style, alias) {
-  alias = alias || "User Style " + String(Object.keys(activeStyles).length + 1);
+  alias = alias || style["properties"]["name"];
   
   // Prevent overwriting existing styles
   if (activeStyles[alias] != null) {
