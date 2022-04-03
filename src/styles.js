@@ -132,7 +132,7 @@ var addStyleToMap = function(style, alias) {
   activeStyles[alias] = styleJSON;
   
   Map.setOptions(alias, activeStyles);
-  return activeStyles["properties"];
+  return style["properties"];
 }
 
 
