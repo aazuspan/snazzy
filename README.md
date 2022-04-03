@@ -4,11 +4,12 @@
 
 ![Snazzy basemap demo](assets/snazzy_demo.gif)
 
-## Description
+## TLDR
 
 - 🗺️ Customize your Earth Engine basemap in any script or App
 - ✨ Add any style from [Snazzy Maps](https://snazzymaps.com) with one line of code
 - 🗒️ Check out the [example script](https://code.earthengine.google.com/b1bfa398bbae12b6a707d2f36f3a2708) for a quick interactive demo
+- ⚙️ Find `snazzy` in the [Earth Engine Developer Resources](https://developers.google.com/earth-engine/tutorials/community/developer-resources#code_editor_javascript)
 
 ## Usage
 
@@ -19,7 +20,7 @@ var snazzy = require("users/aazuspan/snazzy:styles");
 ```
 
 ### Add a Single Style
-Add a style from [Snazzy Maps](https://snazzymaps.com/explore) to your map by copying the URL and pasting in your Earth Engine script with `snazzy.addStyle`. The second parameter will be assigned as the style name.
+Add a style from [Snazzy Maps](https://snazzymaps.com/explore) to your map by copying the URL and pasting in your Earth Engine script with `snazzy.addStyle`. The second parameter is optional and will be assigned as the style alias (displayed in the top right of the map). If no alias is provided, the name of the style on Snazzy Maps will be used.
 
 ```javascript
 snazzy.addStyle("https://snazzymaps.com/style/235815/retro", "Retro");
@@ -27,30 +28,41 @@ snazzy.addStyle("https://snazzymaps.com/style/235815/retro", "Retro");
 
 ### Add Multiple Styles
 
-Your map can have multiple custom styles at once. You can do this is by using `addStyle` multiple times, or by passing an object with URLs and unique style names to `addStyles`:
+Your map can have multiple custom styles at once. You can do this is by using `addStyle` multiple times, or by passing an object with URLs and aliases to `addStyles`:
 
 ```javascript
 var styles = {
     "https://snazzymaps.com/style/235815/retro": "Retro",
     "https://snazzymaps.com/style/13/neutral-blue": "Blue",
     "https://snazzymaps.com/style/8097/wy": "WY"
-}
+};
 snazzy.addStyles(styles);
+```
+
+### Add a Style Using a Name
+
+You can also add a style by name rather than URL. However, there may be multiple styles with the same name. `snazzy` will always add the most popular style that matches a given name, so use a URL if selecting by name doesn't give you the style you want.
+
+```javascript
+snazzy.addStyleFromName("Retro");
 ```
 
 ### Add a Style Using Tags
 
-Know the aesthetic or color scheme but don't have a specific style in mind? You can use `snazzy.addStyleFromTags` to add a popular or random style that matches your criteria. Just pass in an array of [tags/colors](#snazzy-tags) and a style name to assign.
+Know the aesthetic or color scheme but don't have a specific style in mind? You can use `snazzy.addStyleFromTags` to add a popular or random style that matches your criteria. Just pass in an array of [tags/colors](#snazzy-tags) and an alias.
 
 ```javascript
-snazzy.addStyleFromTags(["yellow", "black", "two-tone"], "Yellow");
+snazzy.addStyleFromTags(["yellow", "black", "two-tone"]);
 ```
 
 By default, `addStyleFromTags` adds the most popular style that matches all your tags, sorted by `favorites`, but you can also sort by `views` (or `random` for a surprise).
 
 ```javascript
-snazzy.addStyleFromTags(["colorful", "no-labels", "simple"], "Colorful", "random");
+var order = "random";
+print(snazzy.addStyleFromTags(["colorful", "no-labels", "simple"], null, order));
 ```
+
+Note: All `snazzy` functions that add styles return information on the style added such as its name, URL, and metadata. If you want to be able to find a random style again, remember to print it!
 
 ### Snazzy Tags
 
@@ -59,6 +71,8 @@ snazzy.addStyleFromTags(["colorful", "no-labels", "simple"], "Colorful", "random
 - **Tags**: `colorful, complex, dark, greyscale, light, monochrome, no-labels, simple, two-tone`
 - **Colors**: `black, blue, grey, green, orange, purple, red, white, yellow`
 
-## Details
+## Acknowledgements
 
-[@TC25](https://github.com/TC25) wrote [a great tutorial](https://developers.google.com/earth-engine/tutorials/community/customizing-base-map-styles) on how you can customize Earth Engine basemaps using styles from Snazzy Maps. However, that technique requires adding a long style array to every script. `snazzy` stores all ~25,000 style descriptions currently on Snazzy Maps in one big public Feature Collection (`snazzy.styles`). When you request a style, `snazzy` queries that collection to find the right style and adds it to your map for you.
+- [@adamkrogh](https://github.com/adamkrogh) is the creator of [Snazzy Maps](https://snazzymaps.com) 👏
+
+- [@TC25](https://github.com/TC25) wrote [a great tutorial](https://developers.google.com/earth-engine/tutorials/community/customizing-base-map-styles) on how you can manually add Snazzy Maps styles to the Earth Engine code editor, which inspired this module. 
