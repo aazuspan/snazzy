@@ -96,7 +96,7 @@ var getStyleFromTags = function(tags, order) {
   var tagFilter = buildCompoundTagFilter(tags);
   
   var sorted = sortStyles(order);
-  var style = exports.styles.filter(tagFilter).first().getInfo();
+  var style = sorted.filter(tagFilter).first().getInfo();
   
   if (style == null) {
     throw "No styles matched all the selected tags...";
