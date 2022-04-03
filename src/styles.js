@@ -95,6 +95,17 @@ exports.addStyleFromTags = function(tags, name, order) {
   return url;
 }
 
+// Add the first style with a given name, sorted by favorites.
+exports.addStyleFromName = function(styleName) {
+  var style = exports.styles.filter(ee.Filter.equals("name", styleName)).sort("favorites", false).first().getInfo();
+  
+  if (style == null) {
+    throw "Style " + styleName + " could not be found...";
+  }
+  
+  return JSON.parse(style["properties"]["json"]);
+}
+
 // List the URLs of the top n styles that match an optional set of tags, ordered by favorites,
 // views, or random.
 exports.listStyles = function(n, tags, order) {
