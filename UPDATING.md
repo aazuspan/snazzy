@@ -6,7 +6,7 @@ Note: This guide is just a reference for the maintainer of `snazzy` or users loo
 
 
 1. Run `python scripts/update_snazzy_styles.py` to download all styles and save as `snazzy_styles.csv`. 
-2. Upload `snazzy_styles.csv` to Earth Engine as a new asset named `snazzy_styles_update`. Remember to set the `CSV Delimeter` option to a tab and enter the current time as the `system:end_time`. Copy the description text from the original `snazzy_styles`.
+2. Upload `snazzy_styles.csv` to Earth Engine as a new asset named `snazzy_styles_update`. Remember to set the `CSV Delimeter` option to a tab and enter the current time as the `system:end_time`. Copy the description text from the original `snazzy_styles`. Set the `Share` setting to `Anyone can read`.
 3. Rename the old `snazzy_styles` collection to `snazzy_styles_old`. Rename the new `snazzy_styles_update` collection to `snazzy_styles` to replace it. 
 4. Test a number of styles to ensure the new asset is properly formatted and working.
 5. Delete `snazzy_styles_old`.
