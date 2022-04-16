@@ -9,14 +9,19 @@ import requests
 import rich
 from rich.status import Status
 from rich.prompt import Confirm
-from rich.traceback import install
 
-# Set up rich tracebacks
-install()
+from scripts.update import STYLE_PATH
+
+
+# Name of the style Feature Collection asset in Earth Engine
+STYLE_ASSET = "projects/ee-aazuspan/assets/snazzy/styles"
+# Temporary asset names used during ingestion
+NEW_STYLE_ASSET = STYLE_ASSET + "_NEW"
+OLD_STYLE_ASSET = STYLE_ASSET + "_OLD"
 
 
 def load_cookies(path):
-    """Load the cookies from the cookies.json file."""
+    """Load the cookies from the cookies JSON file."""
     if not os.path.exists(path):
         raise Exception("GEE cookies not found! `pip install geeup` and follow the guide to set them up: "\
             "https://samapriya.github.io/geeup/projects/cookies_setup/")
@@ -106,7 +111,7 @@ def share_asset(asset):
 
 
 def is_shared_asset(asset):
-    """Verify that the asset has public access."""
+    """Verify that an asset has public access."""
     acl = ee.data.getAssetAcl(asset)
 
     try:
@@ -115,10 +120,10 @@ def is_shared_asset(asset):
         return False
 
 
-def compare_style_sizes(old_styles, new_styles):
+def compare_style_sizes(OLD_STYLE_ASSET, NEW_STYLE_ASSET):
     """Compare the size of the previous and new style collections (in rows and bytes) and print the results."""
-    new_num = ee.FeatureCollection(new_styles).size().getInfo()
-    old_num = ee.FeatureCollection(old_styles).size().getInfo()
+    new_num = ee.FeatureCollection(NEW_STYLE_ASSET).size().getInfo()
+    old_num = ee.FeatureCollection(OLD_STYLE_ASSET).size().getInfo()
 
     if new_num > old_num:
         rich.print(f"[cyan]{new_num - old_num} styles were added.[/]")
@@ -127,8 +132,8 @@ def compare_style_sizes(old_styles, new_styles):
     else:
         rich.print("[yellow]No new styles were added.[/]")
 
-    new_bytes = int(ee.data.getAsset(new_styles)["sizeBytes"])
-    old_bytes = int(ee.data.getAsset(old_styles)["sizeBytes"])
+    new_bytes = int(ee.data.getAsset(NEW_STYLE_ASSET)["sizeBytes"])
+    old_bytes = int(ee.data.getAsset(OLD_STYLE_ASSET)["sizeBytes"])
 
     if new_bytes > old_bytes:
         rich.print(f"[cyan]Style size increased by {new_bytes - old_bytes} bytes.[/]")
@@ -154,56 +159,49 @@ def main():
     """This script uploads a new Snazzy styles table to an Earth Engine asset and removes the old styles."""
     ee.Initialize()
 
-    styles_path = os.path.join("data", "snazzy_styles.csv")
-    asset_name = "projects/ee-aazuspan/assets/styles_test"
-
-    new_styles = asset_name + "_NEW"
-    old_styles = asset_name + "_OLD"
-    active_styles = asset_name
-
-    if asset_exists(new_styles):
-        if Confirm.ask(f"[red]Asset '{new_styles}' already exists. Overwrite?[/]"):
-            delete_asset(new_styles)
+    if asset_exists(NEW_STYLE_ASSET):
+        if Confirm.ask(f"[red]Asset '{NEW_STYLE_ASSET}' already exists. Overwrite?[/]"):
+            delete_asset(NEW_STYLE_ASSET)
         else:
             rich.print("[red]Aborting...[/]")
             return
 
-    rich.print(f"\n[yellow]Uploading '{styles_path}' to '{new_styles}'...[/]")
-    upload_asset(file=styles_path, asset_name=new_styles)
+    rich.print(f"\n[yellow]Uploading '{STYLE_PATH}' to '{NEW_STYLE_ASSET}'...[/]")
+    upload_asset(file=STYLE_PATH, asset_name=NEW_STYLE_ASSET)
     
     rich.print("\n[green]Styles successfully ingested![/]")
 
-    if asset_exists(active_styles):
-        compare_style_sizes(old_styles=active_styles, new_styles=new_styles)
+    if asset_exists(STYLE_ASSET):
+        compare_style_sizes(OLD_STYLE_ASSET=STYLE_ASSET, NEW_STYLE_ASSET=NEW_STYLE_ASSET)
 
         if Confirm.ask("\n[red]Rename styles?[/] This will make the new styles active. If not, styles will be reset."):
-            rename_asset(active_styles, old_styles)
-            rename_asset(new_styles, active_styles)
+            rename_asset(STYLE_ASSET, OLD_STYLE_ASSET)
+            rename_asset(NEW_STYLE_ASSET, STYLE_ASSET)
         else:
-            delete_asset(new_styles)
+            delete_asset(NEW_STYLE_ASSET)
             rich.print("[red bold]Aborting![/] New styles have been deleted.")
             return
 
         if Confirm.ask(f"\n[red bold]Delete old styles?[/] If not, styles will be reset."):
-            delete_asset(old_styles)
+            delete_asset(OLD_STYLE_ASSET)
         else:
-            rename_asset(active_styles, new_styles)
-            rename_asset(old_styles, active_styles)
-            delete_asset(new_styles)
+            rename_asset(STYLE_ASSET, NEW_STYLE_ASSET)
+            rename_asset(OLD_STYLE_ASSET, STYLE_ASSET)
+            delete_asset(NEW_STYLE_ASSET)
             rich.print("[red bold]Aborting![/] New styles have been deleted and old styles have been reactivated.")
             return
         
-        share_asset(active_styles)
+        share_asset(STYLE_ASSET)
         rich.print("\n[green]Styles successfully updated![/]")
 
     # The first time styles are updated, there are no old styles to rename and delete.
     else:
-        rename_asset(new_styles, active_styles)
-        share_asset(active_styles)
+        rename_asset(NEW_STYLE_ASSET, STYLE_ASSET)
+        share_asset(STYLE_ASSET)
         rich.print("\n[green]No old styles exist. New styles successfully uploaded![/]")
     
-    if not is_shared_asset(active_styles):
-        raise Exception(f"Asset '{active_styles}' does not have public access!")
+    if not is_shared_asset(STYLE_ASSET):
+        raise Exception(f"Asset '{STYLE_ASSET}' does not have public access!")
 
 if __name__ == "__main__":
     main()

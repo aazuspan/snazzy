@@ -15,6 +15,7 @@ import os
 # to take longer and larger page sizes (>2048) aren't allowed.
 PAGE_SIZE = 1_000
 BASE_URL = "https://snazzymaps.com/explore.json"
+STYLE_PATH = os.path.join("data", "snazzy_styles.csv")
 
 
 def count_styles(api_key):
@@ -23,6 +24,7 @@ def count_styles(api_key):
     r.raise_for_status()
 
     return int(r.json()["pagination"]["totalItems"])
+
 
 def download_styles(pages, api_key):
     """Download all styles from Snazzy Maps, one page at a time."""
@@ -104,8 +106,8 @@ def clean_styles(styles):
     return cleaned_styles
 
 
-def save_styles(styles):
-    """Save the styles to a CSV for ingestion into Earth Engine."""
+def save_styles(styles, path):
+    """Save the styles to a cleaned, formatted, tab-delimited CSV for ingestion into Earth Engine."""
     df = pd.json_normalize(styles)
 
     # Just in case, drop any rows with null styles or urls
@@ -119,9 +121,14 @@ def save_styles(styles):
     df["tags"] = (df.tags + df.colors).map(lambda x: ",".join(x))
 
     df = df[["name", "url", "tags", "json", "views", "favorites"]]
+
+    path_dir = os.path.dirname(path)
+    if not os.path.exists(path_dir):
+        os.makedirs(path_dir)
+
     # Tab-delimiting overcomes some issues that GEE has when you ingest
     # these comma-delimited.
-    df.to_csv(os.path.join("data", "snazzy_styles.csv"), index=False, sep="\t")
+    df.to_csv(path, index=False, sep="\t")
 
 
 if __name__ == "__main__":
@@ -133,10 +140,9 @@ if __name__ == "__main__":
     rich.print(f"Found {n:,} styles over {pages} pages...")
 
     styles = download_styles(pages, api_key=key)
-    rich.print(f"{len(styles):,} styles successfully downloaded!")
 
     cleaned = clean_styles(styles)
-    rich.print(f"{len(cleaned):,} styles successfully cleaned!")
+    rich.print(f"{len(cleaned):,} styles successfully downloaded and cleaned!")
 
-    save_styles(cleaned)
-    rich.print("All styles saved!")
+    save_styles(cleaned, STYLE_PATH)
+    rich.print(f"[green]Styles saved to {STYLE_PATH}![/]")
