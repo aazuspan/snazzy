@@ -1,4 +1,4 @@
-exports.styles = ee.FeatureCollection("projects/ee-aazuspan/assets/snazzy_styles");
+exports.styles = ee.FeatureCollection("projects/ee-aazuspan/assets/snazzy/styles");
 exports.tags = require("users/aazuspan/snazzy:src/tags.js");
 
 var HELP = "\
