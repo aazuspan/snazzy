@@ -1,0 +1,6 @@
+earthengine-api
+tqdm
+rich
+requests
+dirtyjson
+geeup
