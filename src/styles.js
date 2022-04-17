@@ -1,5 +1,6 @@
-exports.styles = ee.FeatureCollection("projects/ee-aazuspan/assets/snazzy/styles");
 exports.tags = require("users/aazuspan/snazzy:src/tags.js");
+exports.styleAsset = "projects/ee-aazuspan/assets/snazzy/styles";
+exports.styles = ee.FeatureCollection(exports.styleAsset);
 
 var HELP = "\
 \n░░░░░░░ ░░░    ░░  ░░░░░  ░░░░░░░ ░░░░░░░ ░░    ░░ \
