@@ -34,25 +34,25 @@ tests.testStyleFromTags = function() {
 // Test that an invalid style URL throws an error
 tests.testBadUrl = function() {
   var func = function() {snazzy.addStyle("https://invalidurl.biz")};
-  testing.assertThrows(func, Error);
+  testing.assert.throws(func, Error);
 }
 
 // Test that an invalid style name throws an error
 tests.testBadName = function() {
   var func = function() {snazzy.addStyleFromName("SDJfDSJFKdjfKDSLJF394ujFDK0f2")};
-  testing.assertThrows(func, Error);
+  testing.assert.throws(func, Error);
 }
 
 // Test that an invalid tag throws an error
 tests.testBadTag = function() {
   var func = function() {snazzy.addStyleFromTags(["invalid-tag"])};
-  testing.assertThrows(func, Error);
+  testing.assert.throws(func, Error);
 }
 
 // Test that an invalid sort order throws an error
 tests.testBadOrder = function() {
   var func = function() {snazzy.addStyleFromTags(["colorful"], null, "invalid")};
-  testing.assertThrows(func, Error);
+  testing.assert.throws(func, Error);
 }
 
 
