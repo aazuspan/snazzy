@@ -6,9 +6,9 @@ var tests = {};
 tests.testCollectionIsPublic = function() {
     var style = snazzy.styleAsset;
     var acl = ee.data.getAssetAcl(style);
-    if (acl["all_users_can_read"] !== true) {
-        throw new Error("Collection is not public!");
-    }
+    testing.assert.strictEqual(
+      acl["all_users_can_read"], true, "Collection is not public!"
+    );
 }
 
 tests.testStyleFromName = function() {
@@ -34,25 +34,25 @@ tests.testStyleFromTags = function() {
 // Test that an invalid style URL throws an error
 tests.testBadUrl = function() {
   var func = function() {snazzy.addStyle("https://invalidurl.biz")};
-  testing.assert.throws(func, Error);
+  testing.assert.throws(func, Error, new RegExp("could not be found"));
 }
 
 // Test that an invalid style name throws an error
 tests.testBadName = function() {
   var func = function() {snazzy.addStyleFromName("SDJfDSJFKdjfKDSLJF394ujFDK0f2")};
-  testing.assert.throws(func, Error);
+  testing.assert.throws(func, Error, new RegExp("could not be found"));
 }
 
 // Test that an invalid tag throws an error
 tests.testBadTag = function() {
   var func = function() {snazzy.addStyleFromTags(["invalid-tag"])};
-  testing.assert.throws(func, Error);
+  testing.assert.throws(func, Error, new RegExp("not a recognized tag"));
 }
 
 // Test that an invalid sort order throws an error
 tests.testBadOrder = function() {
   var func = function() {snazzy.addStyleFromTags(["colorful"], null, "invalid")};
-  testing.assert.throws(func, Error);
+  testing.assert.throws(func, Error, new RegExp("Order should be"));
 }
 
 
