@@ -80,7 +80,7 @@ exports.addStyleFromTags = function(tags, alias, order) {
 var sortStyles = function(order) {
   order = order || "favorites";
   if (order != "views" && order != "favorites" && order != "random") {
-    throw "Order should be 'favorites', 'views', or 'random', not '" + order + "'.";
+    throw new Error("Order should be 'favorites', 'views', or 'random', not '" + order + "'.");
   }
   
   var styles = exports.styles;
@@ -103,7 +103,7 @@ var getStyleFromTags = function(tags, order) {
   var style = sorted.filter(tagFilter).first().getInfo();
   
   if (style == null) {
-    throw "No styles matched all the selected tags...";
+    throw new Error("No styles matched all the selected tags...");
   }
   
   return style;
@@ -116,7 +116,7 @@ var getStyleFromProperty = function(property, value, order) {
   var style = sorted.filter(ee.Filter.equals(property, value)).first().getInfo();
   
   if (style == null) {
-    throw "Style with " + property + " '" + value + "' could not be found...";
+    throw new Error("Style with " + property + " '" + value + "' could not be found...");
   }
   
   return style;
@@ -129,7 +129,7 @@ var addStyleToMap = function(style, alias) {
   
   // Prevent overwriting existing styles
   if (activeStyles[alias] != null) {
-    throw "A style with alias '" + alias + "' already exists! Style aliases must be unique (or null).";
+    throw new Error("A style with alias '" + alias + "' already exists! Style aliases must be unique (or null).");
   }
   
   var styleJSON = JSON.parse(style["properties"]["json"]);
@@ -152,7 +152,7 @@ var buildCompoundTagFilter = function(tags) {
   for (var i=0; i<tags.length; i++) {
     var tag = tags[i];
     if (exports.tags.indexOf(tag) === -1) {
-      throw "'" + tag + "' is not a recognized tag. Choose from: " + exports.tags;
+      throw new Error("'" + tag + "' is not a recognized tag. Choose from: " + exports.tags);
     }
     
     if (i === 0) 
