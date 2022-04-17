@@ -3,8 +3,6 @@ var snazzy = require("users/aazuspan/snazzy:styles");
 
 var tests = {};
 
-
-// Test that the style asset is publicly accessible
 tests.testCollectionIsPublic = function() {
     var style = snazzy.styleAsset;
     var acl = ee.data.getAssetAcl(style);
@@ -30,10 +28,36 @@ tests.testMultipleStyles = function() {
 }
 
 tests.testStyleFromTags = function() {
-  snazzy.addStyleFromTags(["colorful", "light"], "fav", "favorites");  
-  snazzy.addStyleFromTags(["colorful", "light"], "views", "views");  
   snazzy.addStyleFromTags(["colorful", "light"], "rand", "random");  
 }
 
+// Test that an invalid style URL throws an error
+tests.testBadUrl = function() {
+  var func = snazzy.addStyle;
+  var args = ["https://invalidurl.com"];
+  testing.assertThrows(func, args, Error);
+}
 
-testing.runTests(tests)
+// Test that an invalid style name throws an error
+tests.testBadName = function() {
+  var func = snazzy.addStyleFromName;
+  var args = ["This definitely isn't the name of a real style"];
+  testing.assertThrows(func, args, Error);
+}
+
+// Test that an invalid tag throws an error
+tests.testBadTag = function() {
+  var func = snazzy.addStyleFromTags;
+  var args = [["invalid-tag"]];
+  testing.assertThrows(func, args, Error);
+}
+
+// Test that an invalid sort order throws an error
+tests.testBadOrder = function() {
+  var func = snazzy.addStyleFromTags;
+  var args = [["colorful"], null, "invalid"];
+  testing.assertThrows(func, args, Error);
+}
+
+
+testing.runTests(tests);
