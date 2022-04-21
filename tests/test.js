@@ -1,53 +1,53 @@
-var eet = require("users/aazuspan/eet:eet");
 var snazzy = require("users/aazuspan/snazzy:styles");
+var should = require("users/aazuspan/should:test");
 
-eet.test("Style asset is public", function() {
+
+should.utils.call(function() {
   var style = snazzy.styleAsset;
   var acl = ee.data.getAssetAcl(style);
-  eet.assert.strictEqual(
-    acl["all_users_can_read"], true, "Collection is not public!"
-  );
-})
+  should.beTrue(acl["all_users_can_read"], "Check style asset is public");
+});
 
-eet.test("Add style by name", function() {
+
+should.notThrow(function() {
   snazzy.addStyleFromName("Retro");
-})
+}, "Add style by name");
 
-eet.test("Add style by URL", function() {
+
+should.notThrow(function() {
   snazzy.addStyle("https://snazzymaps.com/style/8097/wy");
-})
+}, "Add style by URL");
 
-eet.test("Add multiply styles by URL", function() {
+
+should.notThrow(function() {
   var styles = {
       "https://snazzymaps.com/style/13/neutral-blue": null,
       "https://snazzymaps.com/style/15/subtle-grayscale": null
   };
   snazzy.addStyles(styles);
-})
+}, "Add multiply styles by URL");
 
-eet.test("Add style from tags", function() {
+
+should.notThrow(function() {
   snazzy.addStyleFromTags(["colorful", "light"], "rand", "random");  
-})
-
-eet.test("Invalid URL throws error", function() {
-  var func = function() {snazzy.addStyle("https://invalidurl.biz")};
-  eet.assert.throws(func, Error, new RegExp("could not be found"));
-})
-
-eet.test("Invalid name throws error", function() {
-  var func = function() {snazzy.addStyleFromName("SDJfDSJFKdjfKDSLJF394ujFDK0f2")};
-  eet.assert.throws(func, Error, new RegExp("could not be found"));
-})
-
-eet.test("Invalid tag throws error", function() {
-  var func = function() {snazzy.addStyleFromTags(["invalid-tag"])};
-  eet.assert.throws(func, Error, new RegExp("not a recognized tag"));
-})
-
-eet.test("Invalid sort order throws error", function() {
-  var func = function() {snazzy.addStyleFromTags(["colorful"], null, "invalid")};
-  eet.assert.throws(func, Error, new RegExp("Order should be"));
-})
+}, "Add style from tags");
 
 
-eet.run();
+should.throw(function() {
+  snazzy.addStyle("https://invalidurl.biz");
+}, "Invalid URL throws error");
+
+
+should.throw(function() {
+  snazzy.addStyleFromName("SDJfDSJFKdjfKDSLJF394ujFDK0f2");
+}, "Invalid name throws error");
+
+
+should.throw(function() {
+  snazzy.addStyleFromTags(["invalid-tag"]);
+}, "Invalid tag throws error");
+
+
+should.throw(function() {
+  snazzy.addStyleFromTags(["colorful"], null, "invalid");
+}, "Invalid sort order throws error");
