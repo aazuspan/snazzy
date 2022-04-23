@@ -20,7 +20,7 @@ var snazzy = require("users/aazuspan/snazzy:styles");
 ```
 
 ### Add a Single Style
-Add a style from [Snazzy Maps](https://snazzymaps.com/explore) to your map by copying the URL and pasting in your Earth Engine script with `snazzy.addStyle`. The second parameter is optional and will be assigned as the style alias (displayed in the top right of the map). If no alias is provided, the name of the style on Snazzy Maps will be used.
+Add a style from [Snazzy Maps](https://snazzymaps.com/explore) to your map by copying the URL and pasting in your Earth Engine script with `snazzy.addStyle`. The second parameter is optional and will be assigned as the style alias (displayed in the top right of the map). If no alias (or `null`) is provided, the name of the style on Snazzy Maps will be used.
 
 ```javascript
 snazzy.addStyle("https://snazzymaps.com/style/235815/retro", "Retro");
@@ -58,11 +58,15 @@ snazzy.addStyleFromTags(["yellow", "black", "two-tone"]);
 By default, `addStyleFromTags` adds the most popular style that matches all your tags, sorted by `favorites`, but you can also sort by `views` (or `random` for a surprise).
 
 ```javascript
+var tags = ["colorful", "no-labels", "simple"];
+var alias = null;
 var order = "random";
-print(snazzy.addStyleFromTags(["colorful", "no-labels", "simple"], null, order));
+var printUrl = true;
+
+snazzy.addStyleFromTags(tags, alias, order, printUrl);
 ```
 
-Note: All `snazzy` functions that add styles return information on the style added such as its name, URL, and metadata. If you want to be able to find a random style again, remember to print it!
+Note that `addStyleFromTags` takes an optional `printUrl` parameter that will print a style's URL to help you find it again in the future.
 
 ### Snazzy Tags
 
