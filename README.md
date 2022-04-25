@@ -1,5 +1,8 @@
 # Snazzy
 
+[![Earth Engine Javascript](https://img.shields.io/badge/Earth%20Engine%20API-Javascript-red)](https://code.earthengine.google.com/eea55338fa02e2b114e8cd70431302d8)
+[![Open in Code Editor](https://img.shields.io/badge/Open%20in-Code%20Editor-9cf)](https://code.earthengine.google.com/eea55338fa02e2b114e8cd70431302d8)
+
 [Snazzy Maps](https://snazzymaps.com) styles in the [Google Earth Engine](https://earthengine.google.com/) code editor.
 
 ![Snazzy basemap demo](assets/snazzy_demo.gif)
@@ -7,9 +10,8 @@
 ## TLDR
 
 - 🗺️ Customize your Earth Engine basemap in any script or App
-- ✨ Add any style from [Snazzy Maps](https://snazzymaps.com) with one line of code
-- 🗒️ Check out the [example script](https://code.earthengine.google.com/eea55338fa02e2b114e8cd70431302d8) for a quick interactive demo
-- ⚙️ Find `snazzy` in the [Earth Engine Developer Resources](https://developers.google.com/earth-engine/tutorials/community/developer-resources#code_editor_javascript)
+- ✨ Add any style from [Snazzy Maps](https://snazzymaps.com) by URL, name, or tags with one line of code
+- ⚡ Asynchronous evaluation for fast, non-blocking execution
 
 ## Usage
 
