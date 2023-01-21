@@ -1,3 +1,4 @@
 *.csv
 *.json
 *.pyc
+node_modules/
