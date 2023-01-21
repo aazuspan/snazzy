@@ -1,6 +1,4 @@
-exports.tags = require("users/aazuspan/snazzy:src/tags.js");
-exports.styleAsset = "projects/ee-aazuspan/assets/snazzy/styles";
-exports.styles = ee.FeatureCollection(exports.styleAsset);
+var tags = require("users/aazuspan/snazzy:src/tags.js")
 
 var HELP =
   "\
@@ -37,7 +35,7 @@ var HELP =
 \n╚═══════════════════════════════════════════════════════╝\
 ";
 
-exports.help = function () {
+function help() {
   print(HELP);
 };
 
@@ -45,7 +43,7 @@ exports.help = function () {
 var activeStyles = {};
 
 // Add a single style from a URL
-exports.addStyle = function (url, alias) {
+function addStyle(url, alias) {
   var style = getStyleFromProperty("url", url);
 
   style.evaluate(function (data, error) {
@@ -58,14 +56,14 @@ exports.addStyle = function (url, alias) {
 };
 
 // Add multiple styles from a mapping of URLs to names
-exports.addStyles = function (styles) {
+function addStyles(styles) {
   for (var url in styles) {
     exports.addStyle(url, styles[url]);
   }
 };
 
 // Add the first style with a given name, sorted by favorites.
-exports.addStyleFromName = function (name, alias) {
+function addStyleFromName(name, alias) {
   var style = getStyleFromProperty("name", name, "favorites");
 
   style.evaluate(function (data, error) {
@@ -78,7 +76,7 @@ exports.addStyleFromName = function (name, alias) {
 };
 
 // Add the first style that matches a set of tags, sorted by "favorites", "views", or "random".
-exports.addStyleFromTags = function (tags, alias, order, printUrl) {
+function addStyleFromTags(tags, alias, order, printUrl) {
   printUrl = printUrl || false;
   var style = getStyleFromTags(tags, order);
 
@@ -92,7 +90,7 @@ exports.addStyleFromTags = function (tags, alias, order, printUrl) {
 };
 
 // Sort all the exported styles by favorites, views, or random
-var sortStyles = function (order) {
+function sortStyles(order) {
   order = order || "favorites";
   if (order != "views" && order != "favorites" && order != "random") {
     throw new Error(
@@ -115,7 +113,7 @@ var sortStyles = function (order) {
 };
 
 // Get the first style from the collection that matches all of the given tags
-var getStyleFromTags = function (tags, order) {
+function getStyleFromTags(tags, order) {
   var tagFilter = buildCompoundTagFilter(tags);
 
   var sorted = sortStyles(order);
@@ -125,7 +123,7 @@ var getStyleFromTags = function (tags, order) {
 };
 
 // Get the first style from the collection where a given property matches a given value.
-var getStyleFromProperty = function (property, value, order) {
+function getStyleFromProperty(property, value, order) {
   var sorted = sortStyles(order);
   var style = sorted.filter(ee.Filter.equals(property, value)).first();
 
@@ -133,7 +131,7 @@ var getStyleFromProperty = function (property, value, order) {
 };
 
 // Add a style to the map from a client-side Feature objet
-var addStyleToMap = function (style, alias) {
+function addStyleToMap(style, alias) {
   alias = alias || style["properties"]["name"];
 
   // Prevent overwriting existing styles
@@ -152,7 +150,7 @@ var addStyleToMap = function (style, alias) {
 };
 
 // Iteratively build a filter to match against all tags in an array of tags
-var buildCompoundTagFilter = function (tags) {
+function buildCompoundTagFilter(tags) {
   // If null or empty tags are provided, create a filter that returns everything
   if (tags == null || tags.length == 0) return ee.Filter.always();
 
@@ -173,3 +171,15 @@ var buildCompoundTagFilter = function (tags) {
 
   return filter;
 };
+
+
+exports = {
+  help: help,
+  addStyle: addStyle,
+  addStyles: addStyles,
+  addStyleFromName: addStyleFromName,
+  addStyleFromTags: addStyleFromTags,
+  tags: tags,
+  styleAsset: "projects/ee-aazuspan/assets/snazzy/styles",
+  styles: ee.FeatureCollection("projects/ee-aazuspan/assets/snazzy/styles")
+}
