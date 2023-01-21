@@ -1,4 +1,4 @@
 *.csv
-*.json
+cookie_jar.json
 *.pyc
 node_modules/
