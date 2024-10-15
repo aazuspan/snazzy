@@ -19,24 +19,27 @@ function getIconURL(id, size) {
  */
 function setIcon(widget, id, size, callback) {
     if (widget.setImageUrl === undefined) {
-      throw new Error("Unsupported widget type. Expected Button or Label, got " + widget.constructor.name + ".");
+        throw new Error("Unsupported widget type. Expected Button or Label, got " + widget.constructor.name + ".");
     }
-    
+
     size = size || 24;
     var supported_sizes = [16, 24, 32, 48, 64];
     if (supported_sizes.indexOf(size) === -1) {
-      throw new Error("Unsupported size. Choose from [" + supported_sizes + "].");
+        throw new Error("Unsupported size. Choose from [" + supported_sizes + "].");
     }
-  
+
     var url = getIconURL(id, size);
-    url.evaluate(function(evaluated_url) {
-      widget.setImageUrl(evaluated_url);
-      
-      if (callback) { callback(widget) }
+    url.evaluate(function (evaluated_url) {
+        if (evaluated_url === null) {
+            throw new Error("No icon found with ID '" + id + "'.");
+        }
+        widget.setImageUrl(evaluated_url);
+
+        if (callback) { callback(widget) }
     });
-    
+
     return widget;
-  }
+}
 
 exports = {
     setIcon: setIcon,
