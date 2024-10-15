@@ -1,4 +1,4 @@
-var snazzy = require("users/aazuspan/snazzy:src/entry.js");
+var snazzy = require("users/aazuspan/snazzy:styles");
 var should = require("users/aazuspan/should:test");
 
 should.bePublic(snazzy.styleAsset, "Check style asset is public");
