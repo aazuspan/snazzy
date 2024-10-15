@@ -6,6 +6,6 @@
         "bundle": "minee --entry users/aazuspan/snazzy:src/entry.js --dest styles --keep-names"
     },
     "dependencies": {
-        "minee": "^0.0.8"
+        "minee": "^0.0.9"
     }
 }

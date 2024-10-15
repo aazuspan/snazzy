@@ -1,4 +1,5 @@
 var tags = require("users/aazuspan/snazzy:src/tags.js");
+var icons = require("users/aazuspan/snazzy:src/icons.js");
 
 var HELP =
   "\
@@ -200,6 +201,7 @@ exports = {
   addStyleFromName: addStyleFromName,
   addStyleFromTags: addStyleFromTags,
   tags: tags,
+  icons: icons,
   styleAsset: "projects/ee-aazuspan/assets/snazzy/styles",
   styles: ee.FeatureCollection("projects/ee-aazuspan/assets/snazzy/styles")
 };

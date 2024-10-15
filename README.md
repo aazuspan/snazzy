@@ -50,12 +50,12 @@ By default, `addStyleFromTags` adds the most popular style that matches all your
 var tags = ["colorful", "no-labels", "simple"];
 var alias = null;
 var order = "random";
-var printUrl = true;
 
-snazzy.addStyleFromTags(tags, alias, order, printUrl);
+var style = snazzy.addStyleFromTags(tags, alias, order);
+print(style);
 ```
 
-Note that `addStyleFromTags` takes an optional `printUrl` parameter that will print a style's URL to help you find it again in the future.
+Note that all functions that add styles return the style feature, which can be printed to reveal the URL and other metadata.
 
 ### Snazzy Tags
 
