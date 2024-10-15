@@ -11,6 +11,7 @@
 
 - 🗺️ Customize your Earth Engine basemap in any script or App
 - ✨ Add any style from [Snazzy Maps](https://snazzymaps.com) by URL, name, or tags with one line of code
+- 🆒 Add any [Font Awesome free icon](https://fontawesome.com/search?m=free&o=r) to your widgets with one line of code
 - ⚡ Asynchronous evaluation for fast, non-blocking execution
 
 ## Usage
@@ -63,6 +64,32 @@ Note that all functions that add styles return the style feature, which can be p
 
 - **Tags**: `colorful, complex, dark, greyscale, light, monochrome, no-labels, simple, two-tone`
 - **Colors**: `black, blue, grey, green, orange, purple, red, white, yellow`
+
+### Font Awesome Icons
+
+`ui.Label` and `ui.Button` widgets support image icons. Find a free icon from [Font Awesome](https://fontawesome.com/search?m=free&o=r) and assign it to your widget with `snazzy.icons.setIcon`:
+
+```js
+var widget = ui.Button();
+var iconName = "fa-dog";
+var iconSize = 32;
+
+snazzy.icons.setIcon(widget, iconName, iconSize);
+print(widget);
+```
+
+To avoid the icon appearing after the widget is displayed, `setIcon` also takes an optional callback function that will be called with the widget after loading, e.g.:
+
+```js
+var widget = ui.Button();
+var iconName = "fa-dog";
+var iconSize = 32;
+
+snazzy.icons.setIcon(widget, iconName, iconSize, function(loadedWidget) {
+    print("Widget icon loaded!");
+    Map.add(loadedWidget);
+});
+```
 
 ## Acknowledgements
 
