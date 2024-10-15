@@ -57,13 +57,18 @@ function addStyle(url, alias, callback) {
       callback(data);
     }
   });
+  
+  return style;
 };
 
 // Add multiple styles from a mapping of URLs to names
 function addStyles(styles, callback) {
+  var features = [];
   for (var url in styles) {
-    exports.addStyle(url, styles[url], callback);
+    features.push(exports.addStyle(url, styles[url], callback));
   }
+  
+  return features;
 };
 
 // Add the first style with a given name, sorted by favorites.
@@ -81,6 +86,8 @@ function addStyleFromName(name, alias, callback) {
       callback(data);
     }
   });
+  
+  return style;
 };
 
 // Add the first style that matches a set of tags, sorted by "favorites", "views", or "random".
@@ -98,6 +105,8 @@ function addStyleFromTags(tags, alias, order, printUrl, callback) {
       callback(data);
     }
   });
+  
+  return style;
 };
 
 // Sort all the exported styles by favorites, views, or random
