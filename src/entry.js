@@ -15,7 +15,7 @@ var HELP =
 \n╚═══════════════════════════════════════════════════════╝\
 \n\n██▓▓▒▒▒▒░░░░░░          ADD A STYLE        ░░░░░░▒▒▒▒▓▓██\
 \n╔═══════════════════════════════════════════════════════╗\
-\n║ snazzy.addStyle(url, alias);                          ║\
+\n║ snazzy.addStyle(url, alias, callback?);                ║\
 \n╚═══════════════════════════════════════════════════════╝\
 \n\n██▓▓▒▒▒▒░░░░░░     ADD MULTIPLE STYLES     ░░░░░░▒▒▒▒▓▓██\
 \n╔═══════════════════════════════════════════════════════╗\
@@ -43,7 +43,7 @@ function help() {
 var activeStyles = {};
 
 // Add a single style from a URL
-function addStyle(url, alias) {
+function addStyle(url, alias, callback) {
   var style = getStyleFromProperty("url", url);
 
   style.evaluate(function (data, error) {
@@ -52,18 +52,22 @@ function addStyle(url, alias) {
     if (error) throw new Error(error);
 
     addStyleToMap(data, alias);
+    
+    if (callback) {
+      callback(data);
+    }
   });
 };
 
 // Add multiple styles from a mapping of URLs to names
-function addStyles(styles) {
+function addStyles(styles, callback) {
   for (var url in styles) {
-    exports.addStyle(url, styles[url]);
+    exports.addStyle(url, styles[url], callback);
   }
 };
 
 // Add the first style with a given name, sorted by favorites.
-function addStyleFromName(name, alias) {
+function addStyleFromName(name, alias, callback) {
   var style = getStyleFromProperty("name", name, "favorites");
 
   style.evaluate(function (data, error) {
@@ -72,11 +76,15 @@ function addStyleFromName(name, alias) {
     if (error) throw new Error(error);
 
     addStyleToMap(data, alias);
+    
+    if (callback) {
+      callback(data);
+    }
   });
 };
 
 // Add the first style that matches a set of tags, sorted by "favorites", "views", or "random".
-function addStyleFromTags(tags, alias, order, printUrl) {
+function addStyleFromTags(tags, alias, order, printUrl, callback) {
   printUrl = printUrl || false;
   var style = getStyleFromTags(tags, order);
 
@@ -86,6 +94,9 @@ function addStyleFromTags(tags, alias, order, printUrl) {
 
     addStyleToMap(data, alias);
     if (printUrl) print(data["properties"]["url"]);
+    if (callback) {
+      callback(data);
+    }
   });
 };
 
