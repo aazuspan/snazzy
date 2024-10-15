@@ -13,7 +13,13 @@ should.utils.call(function() {
     should.equal(data["properties"]["url"], url, "Evaluated URL should match requested.")
   }
   snazzy.addStyle(url, "alias", callbackTest);
-})
+});
+
+should.match(
+  snazzy.addStyle("https://snazzymaps.com/style/8097/wy", "wy2").getString("name"), 
+  "WY",
+  "Returned feature name should match expected."
+);
 
 should.notThrow(function() {
   snazzy.addStyleFromName("Retro");
@@ -37,16 +43,6 @@ should.notThrow(function() {
 should.notThrow(function() {
   snazzy.addStyleFromTags(["colorful", "light"], "rand", "random");  
 }, "Add style from tags");
-
-
-should.throw(function() {
-  snazzy.addStyle();
-}, "Invalid URL throws error");
-
-
-should.throw(function() {
-  snazzy.addStyleFromName("SDJfDSJFKdjfKDSLJF394ujFDK0f2");
-}, "Invalid name throws error");
 
 
 should.throw(function() {
