@@ -1,5 +1,5 @@
 function getIconURL(id, size) {
-    return urls
+    return exports.icons
         .filter(ee.Filter.eq("id", id))
         .filter(ee.Filter.eq("size", size))
         .first()
