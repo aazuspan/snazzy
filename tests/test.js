@@ -1,13 +1,19 @@
-var snazzy = require("users/aazuspan/snazzy:styles");
+var snazzy = require("users/aazuspan/snazzy:src/entry.js");
 var should = require("users/aazuspan/should:test");
 
+should.bePublic(snazzy.styleAsset, "Check style asset is public");
 
 should.utils.call(function() {
-  var style = snazzy.styleAsset;
-  var acl = ee.data.getAssetAcl(style);
-  should.beTrue(acl["all_users_can_read"], "Check style asset is public");
-});
-
+  var url = "https://snazzymaps.com/style/8097/wy";
+  
+  function callbackTest(data) {
+    var keys = Object.keys(data["properties"]);
+    var expectedKeys = ["favorites", "json", "name", "tags", "url", "views"];
+    should.equal(keys, expectedKeys, "Evaluated keys should match expected.");
+    should.equal(data["properties"]["url"], url, "Evaluated URL should match requested.")
+  }
+  snazzy.addStyle(url, "alias", callbackTest);
+})
 
 should.notThrow(function() {
   snazzy.addStyleFromName("Retro");
@@ -34,7 +40,7 @@ should.notThrow(function() {
 
 
 should.throw(function() {
-  snazzy.addStyle("https://invalidurl.biz");
+  snazzy.addStyle();
 }, "Invalid URL throws error");
 
 
