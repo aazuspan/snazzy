@@ -29,8 +29,8 @@ function setIcon(widget, id, size, callback) {
     }
 
     var url = getIconURL(id, size);
-    url.evaluate(function (evaluated_url) {
-        if (evaluated_url === null) {
+    url.evaluate(function (evaluated_url, err) {
+        if (err) {
             throw new Error("No icon found with ID '" + id + "'.");
         }
         widget.setImageUrl(evaluated_url);
