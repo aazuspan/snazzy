@@ -3,15 +3,15 @@
 [![Earth Engine Javascript](https://img.shields.io/badge/Earth%20Engine%20API-Javascript-red)](https://developers.google.com/earth-engine/tutorials/tutorial_api_01)
 [![Open in Code Editor](https://img.shields.io/badge/Open%20in-Code%20Editor-9cf)](https://code.earthengine.google.com/eea55338fa02e2b114e8cd70431302d8)
 
-[Snazzy Maps](https://snazzymaps.com) styles in the [Google Earth Engine](https://earthengine.google.com/) code editor.
+[Snazzy Maps](https://snazzymaps.com) styles and [Font Awesome](https://fontawesome.com/icons) icons in the [Google Earth Engine](https://earthengine.google.com/) code editor.
 
 ![Snazzy basemap demo](assets/snazzy_demo.gif)
 
 ## TLDR
 
 - 🗺️ Customize your Earth Engine basemap in any script or App
-- ✨ Add any style from [Snazzy Maps](https://snazzymaps.com) by URL, name, or tags with one line of code
-- 🆒 Add any [Font Awesome free icon](https://fontawesome.com/search?m=free&o=r) to your widgets with one line of code
+- ✨ Add any style from [Snazzy Maps](https://snazzymaps.com) by URL, name, or tags
+- 🆒 Add any [Font Awesome free icon](https://fontawesome.com/search?m=free&o=r) to your widgets
 - ⚡ Asynchronous evaluation for fast, non-blocking execution
 
 ## Usage
