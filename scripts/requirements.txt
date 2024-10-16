@@ -4,3 +4,5 @@ rich
 requests
 dirtyjson
 geeup
+cairosvg
+pandas
