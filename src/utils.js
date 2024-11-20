@@ -41,3 +41,7 @@ function AssociationList() {
         return this.keys().indexOf(key) !== -1;
     }
 }
+
+exports = {
+    AssociationList: AssociationList
+}
