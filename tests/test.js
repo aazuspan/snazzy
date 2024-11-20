@@ -13,7 +13,7 @@ should.utils.call(function () {
     should.equal(keys, expectedKeys, "Evaluated keys should match expected.");
     should.equal(data["properties"]["url"], url, "Evaluated URL should match requested.")
   }
-  snazzy.addStyle(url, "alias", callbackTest);
+  snazzy.addStyle(url, "alias", undefined, callbackTest);
 });
 
 should.match(

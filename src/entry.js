@@ -157,20 +157,20 @@ function addStyleToMap(style, alias, map) {
   alias = alias || style["properties"]["name"];
   map = map || Map;
 
-  // Prevent overwriting existing styles
-  if (activeStyles[alias] != null) {
-    throw new Error(
-      "A style with alias '" +
-        alias +
-        "' already exists! Style aliases must be unique (or null)."
-    );
-  }
-
   if (!activeStyles.contains(map)) {
     activeStyles.push(map, {});
   }
-
+  
   var mapStyles = activeStyles.get(map);
+  // Prevent overwriting existing styles
+  if (mapStyles[alias] != null) {
+    throw new Error(
+      "A style with alias '" +
+        alias +
+        "' already exists on this map! Style aliases must be unique (or null)."
+    );
+  }
+
   mapStyles[alias] = JSON.parse(style["properties"]["json"]);
 
   map.setOptions(alias, mapStyles);
