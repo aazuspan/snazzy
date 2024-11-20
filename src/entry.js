@@ -1,5 +1,6 @@
 var tags = require("users/aazuspan/snazzy:src/tags.js");
 var icons = require("users/aazuspan/snazzy:src/icons.js");
+var utils = require("users/aazuspan/snazzy:src/utils.js");
 
 var HELP =
   "\
@@ -16,7 +17,7 @@ var HELP =
 \n╚═══════════════════════════════════════════════════════╝\
 \n\n██▓▓▒▒▒▒░░░░░░          ADD A STYLE        ░░░░░░▒▒▒▒▓▓██\
 \n╔═══════════════════════════════════════════════════════╗\
-\n║ snazzy.addStyle(url, alias, callback?);                ║\
+\n║ snazzy.addStyle(url, alias, map?, callback?);         ║\
 \n╚═══════════════════════════════════════════════════════╝\
 \n\n██▓▓▒▒▒▒░░░░░░     ADD MULTIPLE STYLES     ░░░░░░▒▒▒▒▓▓██\
 \n╔═══════════════════════════════════════════════════════╗\
@@ -32,7 +33,7 @@ var HELP =
 \n╚═══════════════════════════════════════════════════════╝\
 \n\n██▓▓▒▒▒▒░░░░░░     ADD A STYLE BY NAME     ░░░░░░▒▒▒▒▓▓██\
 \n╔═══════════════════════════════════════════════════════╗\
-\n║ snazzy.addStyleFromName(name, alias);                 ║\
+\n║ snazzy.addStyleFromName(name, alias, map);            ║\
 \n╚═══════════════════════════════════════════════════════╝\
 ";
 
@@ -41,10 +42,10 @@ function help() {
 }
 
 // Added styles are automatically stored in this global
-var activeStyles = {};
+var activeStyles = new utils.AssociationList();
 
 // Add a single style from a URL
-function addStyle(url, alias, callback) {
+function addStyle(url, alias, map, callback) {
   var style = getStyleFromProperty("url", url);
 
   style.evaluate(function (data, error) {
@@ -52,7 +53,7 @@ function addStyle(url, alias, callback) {
       throw new Error("Style with URL '" + url + "' could not be found...");
     if (error) throw new Error(error);
 
-    addStyleToMap(data, alias);
+    addStyleToMap(data, alias, map);
     
     if (callback) {
       callback(data);
@@ -63,17 +64,17 @@ function addStyle(url, alias, callback) {
 }
 
 // Add multiple styles from a mapping of URLs to names
-function addStyles(styles, callback) {
+function addStyles(styles, map, callback) {
   var features = [];
   for (var url in styles) {
-    features.push(exports.addStyle(url, styles[url], callback));
+    features.push(exports.addStyle(url, styles[url], map, callback));
   }
   
   return features;
 }
 
 // Add the first style with a given name, sorted by favorites.
-function addStyleFromName(name, alias, callback) {
+function addStyleFromName(name, alias, map, callback) {
   var style = getStyleFromProperty("name", name, "favorites");
 
   style.evaluate(function (data, error) {
@@ -81,7 +82,7 @@ function addStyleFromName(name, alias, callback) {
       throw new Error("Style with name '" + name + "' could not be found...");
     if (error) throw new Error(error);
 
-    addStyleToMap(data, alias);
+    addStyleToMap(data, alias, map);
     
     if (callback) {
       callback(data);
@@ -92,7 +93,7 @@ function addStyleFromName(name, alias, callback) {
 }
 
 // Add the first style that matches a set of tags, sorted by "favorites", "views", or "random".
-function addStyleFromTags(tags, alias, order, printUrl, callback) {
+function addStyleFromTags(tags, alias, order, printUrl, map, callback) {
   printUrl = printUrl || false;
   var style = getStyleFromTags(tags, order);
 
@@ -100,7 +101,7 @@ function addStyleFromTags(tags, alias, order, printUrl, callback) {
     if (!data) throw new Error("No styles matched all the selected tags...");
     if (error) throw new Error(error);
 
-    addStyleToMap(data, alias);
+    addStyleToMap(data, alias, map);
     if (printUrl) print(data["properties"]["url"]);
     if (callback) {
       callback(data);
@@ -152,8 +153,9 @@ function getStyleFromProperty(property, value, order) {
 }
 
 // Add a style to the map from a client-side Feature objet
-function addStyleToMap(style, alias) {
+function addStyleToMap(style, alias, map) {
   alias = alias || style["properties"]["name"];
+  map = map || Map;
 
   // Prevent overwriting existing styles
   if (activeStyles[alias] != null) {
@@ -165,9 +167,11 @@ function addStyleToMap(style, alias) {
   }
 
   var styleJSON = JSON.parse(style["properties"]["json"]);
-  activeStyles[alias] = styleJSON;
 
-  Map.setOptions(alias, activeStyles);
+  var mapStyles = activeStyles.get(map) || {};
+  mapStyles[alias] = styleJSON;
+
+  map.setOptions(alias, mapStyles);
 }
 
 // Iteratively build a filter to match against all tags in an array of tags

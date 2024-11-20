@@ -23,6 +23,7 @@ var snazzy = require("users/aazuspan/snazzy:styles");
 ```
 
 ### Add a Style Using a URL
+
 Add a style from [Snazzy Maps](https://snazzymaps.com/explore) to your map by copying the URL and pasting in your Earth Engine script with `snazzy.addStyle`. The second parameter is optional and will be assigned as the style alias (displayed in the top right of the map). If no alias (or `null`) is provided, the name of the style on Snazzy Maps will be used.
 
 ```javascript
@@ -58,9 +59,18 @@ print(style);
 
 Note that all functions that add styles return the style feature, which can be printed to reveal the URL and other metadata.
 
+### Selecting a Map
+
+By default, `snazzy` will add styles to the default `Map` object, but you can also pass custom `ui.Map` objects.
+
+```js
+var insetMap = ui.Map();
+snazzy.addStyle("https://snazzymaps.com/style/235815/retro", "My Custom Style", insetMap);
+```
+
 ### Snazzy Tags
 
-`Snazzy` supports all of the tags and colors used by Snazzy Maps. To see them in the code editor: `print(snazzy.tags)`.
+`snazzy` supports all of the tags and colors used by Snazzy Maps. To see them in the code editor: `print(snazzy.tags)`.
 
 - **Tags**: `colorful, complex, dark, greyscale, light, monochrome, no-labels, simple, two-tone`
 - **Colors**: `black, blue, grey, green, orange, purple, red, white, yellow`
