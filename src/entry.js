@@ -166,10 +166,12 @@ function addStyleToMap(style, alias, map) {
     );
   }
 
-  var styleJSON = JSON.parse(style["properties"]["json"]);
+  if (!activeStyles.contains(map)) {
+    activeStyles.push(map, {});
+  }
 
-  var mapStyles = activeStyles.get(map) || {};
-  mapStyles[alias] = styleJSON;
+  var mapStyles = activeStyles.get(map);
+  mapStyles[alias] = JSON.parse(style["properties"]["json"]);
 
   map.setOptions(alias, mapStyles);
 }
